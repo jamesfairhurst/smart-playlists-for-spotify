@@ -33,11 +33,15 @@ class AuthController extends Controller
     {
         $this->middleware('guest', ['except' => 'logout']);
 
-        $this->provider = new \Audeio\Spotify\Oauth2\Client\Provider\Spotify([
-            'clientId'     => env('SPOTIFY_CLIENT_ID'),
-            'clientSecret' => env('SPOTIFY_SECRET'),
-            'redirectUri'  => env('SPOTIFY_REDIRECT_URI'),
-            'scopes'       => ['playlist-modify-public', 'user-library-read'],
+        $this->provider = new \League\OAuth2\Client\Provider\GenericProvider([
+            'clientId'                => env('SPOTIFY_CLIENT_ID'),
+            'clientSecret'            => env('SPOTIFY_SECRET'),
+            'redirectUri'             => env('SPOTIFY_REDIRECT_URI'),
+            'urlAuthorize'            => 'https://accounts.spotify.com/authorize',
+            'urlAccessToken'          => 'https://accounts.spotify.com/api/token',
+            'urlResourceOwnerDetails' => 'https://api.spotify.com/v1/me',
+            'scopes'                  => ['playlist-modify-public', 'user-library-read'],
+            'scopeSeparator'          => ' ',
         ]);
     }
 
@@ -70,11 +74,13 @@ class AuthController extends Controller
     public function handleProviderCallback(Request $request)
     {
         try {
+
             $token = $this->provider->getAccessToken('authorization_code', [
                 'code' => $request->get('code')
             ]);
 
-            $user = $this->provider->getUserDetails($token);
+            $user = $this->provider->getResourceOwner($token)->toArray();
+
         } catch (Exception $e) {
             // @todo include error
             return redirect('/');
@@ -96,7 +102,7 @@ class AuthController extends Controller
      */
     private function findOrCreateUser($spotifyUser, $spotifyToken)
     {
-        if ($authUser = User::where('spotify_id', $spotifyUser->uid)->first()) {
+        if ($authUser = User::where('spotify_id', $spotifyUser['id'])->first()) {
             $authUser->token = json_encode($spotifyToken);
             $authUser->save();
 
@@ -104,9 +110,9 @@ class AuthController extends Controller
         }
 
         return User::create([
-            'spotify_id' => $spotifyUser->uid,
-            'name' => $spotifyUser->name,
-            'avatar' => $spotifyUser->imageUrl,
+            'spotify_id' => $spotifyUser['id'],
+            'name' => $spotifyUser['display_name'],
+            'avatar' => ((isset($spotifyUser['images'][0]['url'])) ? $spotifyUser['images'][0]['url'] : ''),
             'token' => json_encode($spotifyToken),
         ]);
     }
