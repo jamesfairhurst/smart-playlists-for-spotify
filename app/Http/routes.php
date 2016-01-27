@@ -50,8 +50,15 @@ Route::group(['middleware' => ['web']], function () {
         // dd(Auth::user());
         // dd(Auth::logout());
 
+        // Decode User's Access Token @todo make an accessor
+        $token = json_decode(Auth::user()->token, true);
+
+        // $api = new \Audeio\Spotify\API();
+        // $api->setAccessToken($token['accessToken']);
+        // dd($api->getCurrentUser());
+
         $api = new SpotifyWebAPI\SpotifyWebAPI();
-        $api->setAccessToken(Auth::user()->token);
+        $api->setAccessToken($token['accessToken']);
 
         try {
             // $userPlaylists = $api->getMyPlaylists();
@@ -168,7 +175,7 @@ Route::group(['middleware' => ['web']], function () {
 
             // return view('home', ['tracks' => $tracks]);
 
-        // Token expired
+        // Token expired @todo refresh existing Token
         } catch (SpotifyWebAPI\SpotifyWebAPIException $e) {
             Auth::logout();
 
@@ -190,6 +197,7 @@ Route::group(['middleware' => ['web']], function () {
         return view('playlists', ['playlists' => $playlists]);
     });
 
+    // @todo validate & save Rules
     Route::post('/playlist', function (Request $request) {
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',

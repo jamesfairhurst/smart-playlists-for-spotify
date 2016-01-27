@@ -5,7 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\User;
 use App\Http\Controllers\Controller;
 use Auth;
-use Socialite;
+use Illuminate\Http\Request;
+use Exception;
 
 class AuthController extends Controller
 {
@@ -17,6 +18,13 @@ class AuthController extends Controller
     protected $redirectTo = '/tracks';
 
     /**
+     * oAuth provider
+     *
+     * @var object
+     */
+    protected $provider = null;
+
+    /**
      * Create a new authentication controller instance.
      *
      * @return void
@@ -24,6 +32,13 @@ class AuthController extends Controller
     public function __construct()
     {
         $this->middleware('guest', ['except' => 'logout']);
+
+        $this->provider = new \Audeio\Spotify\Oauth2\Client\Provider\Spotify([
+            'clientId'     => env('SPOTIFY_CLIENT_ID'),
+            'clientSecret' => env('SPOTIFY_SECRET'),
+            'redirectUri'  => env('SPOTIFY_REDIRECT_URI'),
+            'scopes'       => ['playlist-modify-public', 'user-library-read'],
+        ]);
     }
 
     /**
@@ -44,9 +59,7 @@ class AuthController extends Controller
      */
     public function redirectToProvider()
     {
-        return Socialite::with('spotify')
-            ->scopes(['playlist-modify-public', 'user-library-read'])
-            ->redirect();
+        return redirect($this->provider->getAuthorizationUrl());
     }
 
     /**
@@ -54,15 +67,20 @@ class AuthController extends Controller
      *
      * @return Response
      */
-    public function handleProviderCallback()
+    public function handleProviderCallback(Request $request)
     {
         try {
-            $user = Socialite::driver('spotify')->user();
+            $token = $this->provider->getAccessToken('authorization_code', [
+                'code' => $request->get('code')
+            ]);
+
+            $user = $this->provider->getUserDetails($token);
         } catch (Exception $e) {
+            // @todo include error
             return redirect('/');
         }
 
-        $authUser = $this->findOrCreateUser($user);
+        $authUser = $this->findOrCreateUser($user, $token);
 
         Auth::login($authUser, true);
 
@@ -73,22 +91,24 @@ class AuthController extends Controller
      * Return user if exists; create and return if doesn't
      *
      * @param $spotifyUser
+     * @param $spotifyToken
      * @return User
      */
-    private function findOrCreateUser($spotifyUser)
+    private function findOrCreateUser($spotifyUser, $spotifyToken)
     {
-        if ($authUser = User::where('spotify_id', $spotifyUser->getId())->first()) {
-            $authUser->token = $spotifyUser->token;
+        if ($authUser = User::where('spotify_id', $spotifyUser->uid)->first()) {
+            $authUser->token = json_encode($spotifyToken);
             $authUser->save();
 
             return $authUser;
         }
 
         return User::create([
-            'spotify_id' => $spotifyUser->getId(),
-            'name' => $spotifyUser->getNickname(),
-            'avatar' => $spotifyUser->getAvatar(),
-            'token' => $spotifyUser->token,
+            'spotify_id' => $spotifyUser->uid,
+            'name' => $spotifyUser->name,
+            'avatar' => $spotifyUser->imageUrl,
+            'token' => json_encode($spotifyToken),
         ]);
     }
+
 }

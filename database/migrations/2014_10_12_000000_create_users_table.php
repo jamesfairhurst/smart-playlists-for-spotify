@@ -17,7 +17,7 @@ class CreateUsersTable extends Migration
             $table->string('spotify_id')->unique();
             $table->string('name');
             $table->string('avatar');
-            $table->string('token');
+            $table->text('token');
             // $table->string('email')->unique();
             // $table->string('password', 60);
             $table->rememberToken();
