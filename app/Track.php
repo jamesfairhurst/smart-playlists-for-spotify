@@ -12,6 +12,9 @@ class Track extends Model
      * @var array
      */
     protected $dates = ['created_at', 'updated_at', 'added_at'];
+    protected $dates = [
+        'created_at', 'updated_at', 'added_at'
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -19,7 +22,7 @@ class Track extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id','album_id','spotify_id','artist','name','added_at'
+        'user_id', 'album_id', 'spotify_id', 'artist', 'name', 'added_at'
     ];
 
     /**

@@ -11,7 +11,9 @@ class Album extends Model
      * 
      * @var array
      */
-    protected $dates = ['created_at', 'updated_at', 'released_at'];
+    protected $dates = [
+        'created_at', 'updated_at', 'released_at'
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -19,7 +21,7 @@ class Album extends Model
      * @var array
      */
     protected $fillable = [
-        'track_id','spotify_id','name','released_at'
+        'track_id', 'spotify_id', 'name', 'released_at'
     ];
 
     /**

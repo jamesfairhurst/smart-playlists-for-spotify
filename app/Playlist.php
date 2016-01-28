@@ -12,7 +12,7 @@ class Playlist extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id','spotify_id','name'
+        'user_id', 'spotify_id', 'name'
     ];
 
     /**
