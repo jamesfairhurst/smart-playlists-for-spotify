@@ -23,6 +23,46 @@
                     </div>
                 </div>
 
+                <div class="form-group filter-rule-row">
+                    <label for="playlist-name" class="col-sm-3 control-label">Rule</label>
+
+                    <div class="col-sm-3">
+                        <select name="rule[0][key]" class="form-control">
+                            <option value="artist">Artist</option>
+                            <option value="album">Album</option>
+                            {{-- <option value="genre">Genre</option> --}}
+                            <option value="date_added">Date Added</option>
+                            {{-- <option value="plays">Plays</option> --}}
+                            <option value="year">Year</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-2">
+                        <select name="rule[0][comparison_operator]" class="form-control">
+                            <option value="contains">contains</option>
+                            <option value="not_contains">does not contain</option>
+                            <option value="=">is</option>
+                            <option value="!=">is not</option>
+                            <option value="begins_with">begins with</option>
+                            <option value="ends_with">ends with</option>
+                            <option value=">">is greater than</option>
+                            <option value="<">is less than</option>
+                            <option value=">">is after</option>
+                            <option value="<">is before</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="text" name="rule[0][value]" class="form-control">
+                    </div>
+                    <div class="col-sm-1">
+                        <button type="button" class="btn btn-default btn-success" aria-label="Left Align">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                        </button>
+                        <button type="button" class="btn btn-default btn-danger hidden" aria-label="Left Align">
+                            <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <div class="col-sm-offset-3 col-sm-6">
                         <button type="submit" class="btn btn-default btn-primary">

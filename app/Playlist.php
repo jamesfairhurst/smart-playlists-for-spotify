@@ -22,4 +22,13 @@ class Playlist extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * Rules
+     */
+    public function rules()
+    {
+        return $this->hasMany(Rule::class);
+    }
+
 }
