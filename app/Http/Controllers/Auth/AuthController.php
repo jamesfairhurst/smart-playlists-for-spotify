@@ -111,9 +111,9 @@ class AuthController extends Controller
 
         return User::create([
             'spotify_id' => $spotifyUser['id'],
-            'name' => $spotifyUser['display_name'],
-            'avatar' => ((isset($spotifyUser['images'][0]['url'])) ? $spotifyUser['images'][0]['url'] : ''),
-            'token' => json_encode($spotifyToken),
+            'name'       => $spotifyUser['display_name'],
+            'avatar'     => ((isset($spotifyUser['images'][0]['url'])) ? $spotifyUser['images'][0]['url'] : ''),
+            'token'      => json_encode($spotifyToken),
         ]);
     }
 
