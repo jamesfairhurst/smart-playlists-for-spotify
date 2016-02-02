@@ -50,12 +50,9 @@ Route::group(['middleware' => ['web']], function () {
         // dd(Auth::user());
         // dd(Auth::logout());
 
-        // Decode User's Access Token @todo make an accessor
-        $token = json_decode(Auth::user()->token, true);
-
         // Init Spotify API library
         $api = new SpotifyWebAPI\SpotifyWebAPI();
-        $api->setAccessToken($token['access_token']);
+        $api->setAccessToken(Auth::user()->token['access_token']);
         // dd($api->getMyPlaylists());
         // dd($api->getMySavedTracks(['limit' => 50]));
 
@@ -172,41 +169,8 @@ Route::group(['middleware' => ['web']], function () {
 
             // return view('home', ['tracks' => $tracks]);
 
-        // Token expired @todo refresh existing Token
+        // Token expired @todo redirect with error
         } catch (SpotifyWebAPI\SpotifyWebAPIException $e) {
-            $accessToken = new \League\OAuth2\Client\Token\AccessToken([
-                'access_token'  => $token['access_token'],
-                'refresh_token' => $token['refresh_token'],
-                'expires_in'    => $token['expires'],
-            ]);
-
-            // dd($token);
-            // dd($accessToken->hasExpired());
-
-            $provider = new \League\OAuth2\Client\Provider\GenericProvider([
-                'clientId'                => env('SPOTIFY_CLIENT_ID'),
-                'clientSecret'            => env('SPOTIFY_SECRET'),
-                'redirectUri'             => env('SPOTIFY_REDIRECT_URI'),
-                'urlAuthorize'            => 'https://accounts.spotify.com/authorize',
-                'urlAccessToken'          => 'https://accounts.spotify.com/api/token',
-                'urlResourceOwnerDetails' => 'https://api.spotify.com/v1/me',
-                'scopes'                  => ['playlist-modify-public', 'user-library-read'],
-                'scopeSeparator'          => ' ',
-            ]);
-
-            $newAccessToken = $provider->getAccessToken('refresh_token', [
-                'refresh_token' => $accessToken->getRefreshToken()
-            ]);
-
-            $token['access_token'] = $newAccessToken->getToken();
-            $token['expires'] = $newAccessToken->getExpires();
-
-            Auth::user()->token = json_encode($token);
-            Auth::user()->save();
-
-            // Auth::logout();
-
-            // return redirect('auth/spotify');
             return redirect('/tracks');
         }
 
