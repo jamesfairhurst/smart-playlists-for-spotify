@@ -22,9 +22,11 @@
         <div class="col-md-4">
           <h2>Todo</h2>
           <ul>
-            <li>Use Tracks from all your Playlists not just your saved Tracks</li>
             <li>Live updating in the background so your Playlists are kept upto date</li>
+            <li>Use Tracks from all your Playlists not just your saved Tracks</li>
             <li>Additional Playlist Rules</li>
+            <li>Last.fm integration to get Track playcounts</li>
+            <li>Display live Tracks when creating a new Playlist</li>
           </ul>
           {{-- <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p> --}}
        </div>

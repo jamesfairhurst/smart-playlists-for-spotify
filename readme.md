@@ -9,6 +9,8 @@ Create Smart Playlists with Track/Album rules and these will be automatically cr
 ### Todo
 
 - Live updating in the background so Playlists are kept upto date
-- Select Playlists to use Tracks from, not just your saved Tracks
+- Use Tracks from all your Playlists not just your saved Tracks
 - Additional Playlist Rules
 - Last.fm integration to get Track playcounts
+- Display live Tracks when creating a new Playlist
+- Tests!
