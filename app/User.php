@@ -34,7 +34,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Playlist
+     * Playlists
      */
     public function playlists()
     {
