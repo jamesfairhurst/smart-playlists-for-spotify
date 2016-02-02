@@ -2,6 +2,9 @@
 
 @section('content')
 <div class="container">
+
+    @include('common.flash')
+
     <div class="page-header">
         <h1>Your Playlists</h1>
     </div>

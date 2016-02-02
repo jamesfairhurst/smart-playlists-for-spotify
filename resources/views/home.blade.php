@@ -3,6 +3,8 @@
 @section('content')
 <div class="container">
 
+    @include('common.flash')
+
     <div class="page-header">
         <h1>Your Tracks</h1>
     </div>

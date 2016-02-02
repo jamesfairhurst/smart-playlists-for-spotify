@@ -2,6 +2,9 @@
 
 @section('content')
 <div class="container">
+
+    @include('common.flash')
+
     <div class="page-header">
         <h1>Your Playlist: {{ $playlist->name }}</h1>
     </div>

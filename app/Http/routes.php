@@ -132,9 +132,9 @@ Route::group(['middleware' => ['web']], function () {
                 }
             }
 
-        // Token expired @todo redirect with error
         } catch (SpotifyWebAPI\SpotifyWebAPIException $e) {
-            return redirect('/tracks');
+            return redirect('/tracks')
+                ->withError('Something went wrong, please try again');
         }
 
         // Get all Tracks
@@ -193,13 +193,13 @@ Route::group(['middleware' => ['web']], function () {
                 $playlist->rules()->createMany($request->get('rule'));
             }
 
-        // Token expired @todo redirect with error
         } catch (SpotifyWebAPI\SpotifyWebAPIException $e) {
-            return redirect('/playlists');
+            return redirect('/playlists')
+                ->withError('Something went wrong, please try again');
         }
 
-        // @todo with success
-        return redirect('/playlists');
+        return redirect('/playlists')
+            ->withSuccess('Playlist created');
     });
 
     Route::get('/playlist/{playlist}', function (Playlist $playlist) {
@@ -208,7 +208,7 @@ Route::group(['middleware' => ['web']], function () {
         }
 
         if ($playlist->user_id != Auth::user()->id) {
-            abort(403, 'Unauthorized action.');
+            abort(403, 'Unauthorized action');
         }
 
         return view('playlist', ['playlist' => $playlist, 'tracks' => $playlist->getTracks()]);
@@ -253,13 +253,13 @@ Route::group(['middleware' => ['web']], function () {
                 }
             }
 
-        // Token expired @todo redirect with error
         } catch (SpotifyWebAPI\SpotifyWebAPIException $e) {
-            return redirect('/playlists');
+            return redirect('/playlists')
+                ->withError('Something went wrong, please try again');
         }
 
-        // @todo with success
-        return redirect('/playlists');
+        return redirect('/playlists')
+            ->withSuccess('Playlist pushed to Spotify');
     });
 
     Route::delete('/playlist/{playlist}', function (Playlist $playlist) {
@@ -268,12 +268,12 @@ Route::group(['middleware' => ['web']], function () {
         }
 
         if ($playlist->user_id != Auth::user()->id) {
-            abort(403, 'Unauthorized action.');
+            abort(403, 'Unauthorized action');
         }
 
         $playlist->delete();
 
-        // @todo with success & message that there's no way to delete from Spotify
-        return redirect('/playlists');
+        return redirect('/playlists')
+            ->withSuccess('Playlist deleted however you\'ll you need to manually remove it from Spotify');
     });
 });
