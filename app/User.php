@@ -73,7 +73,6 @@ class User extends Authenticatable
 
         // Has it expired?
         if ($accessToken->hasExpired()) {
-            dd('expired');
             // Get Provider
             $provider = \App::make('League\OAuth2\Client\Provider\GenericProvider');
 

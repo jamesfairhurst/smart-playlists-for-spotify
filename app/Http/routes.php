@@ -46,24 +46,15 @@ Route::group(['middleware' => ['web']], function () {
             return redirect('/');
         }
 
-        // dd(Auth::check());
-        // dd(Auth::user());
-        // dd(Auth::logout());
-
         // Init Spotify API library
         $api = new SpotifyWebAPI\SpotifyWebAPI();
         $api->setAccessToken(Auth::user()->token['access_token']);
-        // dd($api->getMyPlaylists());
-        // dd($api->getMySavedTracks(['limit' => 50]));
 
         try {
             $limit         = 50;
             $offset        = 50;
             $all           = false;
             $spotifyTracks = $api->getMySavedTracks(['limit' => 50]);
-
-            /*$playlist = $api->createUserPlaylist(Auth::user()->spotify_id, ['name' => 'Test']);
-            $api->addUserPlaylistTracks(Auth::user()->spotify_id, $playlist->id, ['3AL7gqIprtj52RdgTDpFUu','24JMNKkwLsQs3lpWgBri8B']);*/
 
             // Get saved Track count
             $spotifyTrackCount = $spotifyTracks->total;
@@ -141,35 +132,6 @@ Route::group(['middleware' => ['web']], function () {
                 }
             }
 
-            // Get all Tracks
-            /*$tracks = Track::with('album')
-                ->where('user_id', Auth::user()->id)
-                // ->whereHas('album', function ($query) {
-                //     $query->where(DB::raw('YEAR(released_at)'), 2015);
-                // })
-                // ->get();
-                ->orderBy('added_at', 'desc')
-                ->paginate();*/
-            // echo '<pre>';echo print_r($tracks->toArray(), true);echo '</pre>';exit;
-
-            // Sort Tracks & sort by decade
-            /*$grouped = $tracks->sortBy('album.released_at')->groupBy(function ($item, $key) {
-                return (int) floor($item->album->released_at->format('Y') / 10) * 10;
-            });
-
-            // Loop and create decade Playlist & add Tracks
-            foreach ($grouped->toArray() as $decade => $tracks) {
-                $playlist = $api->createUserPlaylist(Auth::user()->spotify_id, [
-                    'name' => $decade . 's'
-                ]);
-
-                foreach ($tracks as $track) {
-                    $api->addUserPlaylistTracks(Auth::user()->spotify_id, $playlist->id, $track['spotify_id']);
-                }
-            }*/
-
-            // return view('home', ['tracks' => $tracks]);
-
         // Token expired @todo redirect with error
         } catch (SpotifyWebAPI\SpotifyWebAPIException $e) {
             return redirect('/tracks');
@@ -194,7 +156,6 @@ Route::group(['middleware' => ['web']], function () {
         return view('playlists', ['playlists' => $playlists]);
     });
 
-    // @todo add Spotify Playlist
     Route::post('/playlist', function (Request $request) {
         if (!Auth::check()) {
             return redirect('/');
@@ -215,15 +176,7 @@ Route::group(['middleware' => ['web']], function () {
         }
 
         try {
-            /*$api = new SpotifyWebAPI\SpotifyWebAPI();
-            $api->setAccessToken(Auth::user()->token['access_token']);
-
-            $spotifyPlaylist = $api->createUserPlaylist(Auth::user()->spotify_id, [
-                'name' => $request->name
-            ]);*/
-
             $playlist = $request->user()->playlists()->create([
-                // 'spotify_id' => $spotifyPlaylist,
                 'name' => $request->name,
             ]);
 
@@ -245,6 +198,7 @@ Route::group(['middleware' => ['web']], function () {
             return redirect('/playlists');
         }
 
+        // @todo with success
         return redirect('/playlists');
     });
 
@@ -260,7 +214,6 @@ Route::group(['middleware' => ['web']], function () {
         return view('playlist', ['playlist' => $playlist, 'tracks' => $playlist->getTracks()]);
     });
 
-    // @todo push to Spotify
     Route::post('/playlist/{playlist}', function (Playlist $playlist) {
         if (!Auth::check()) {
             return redirect('/');
@@ -272,7 +225,6 @@ Route::group(['middleware' => ['web']], function () {
 
         $api = new SpotifyWebAPI\SpotifyWebAPI();
         $api->setAccessToken(Auth::user()->token['access_token']);
-        // $me = $api->me();
 
         try {
             // Get/Create Spotify Playlist
@@ -287,18 +239,29 @@ Route::group(['middleware' => ['web']], function () {
                 $spotifyPlaylist = $api->getUserPlaylist(Auth::user()->spotify_id, $playlist->spotify_id);
             }
 
+            // Chunk Spotify Track Ids into 100s as that's the limit
+            $spotifyIdChunks = $playlist->getTracks()->pluck('spotify_id')->chunk(100);
+            foreach ($spotifyIdChunks as $key => $chunk) {
+                // Replace the first chunk of Tracks
+                // Basically clears the Playlist to start fresh
+                if (!$key) {
+                    $api->replaceUserPlaylistTracks(Auth::user()->spotify_id, $spotifyPlaylist->id, $chunk->toArray());
+
+                // Add to the Spotify Playlist
+                } else {
+                    $api->addUserPlaylistTracks(Auth::user()->spotify_id, $spotifyPlaylist->id, $chunk->toArray());
+                }
+            }
+
         // Token expired @todo redirect with error
         } catch (SpotifyWebAPI\SpotifyWebAPIException $e) {
             return redirect('/playlists');
         }
 
-        dd($spotifyPlaylist);
-        dd($playlist->getTracks());
-
+        // @todo with success
         return redirect('/playlists');
     });
 
-    // @todo delete Spotify Playlist
     Route::delete('/playlist/{playlist}', function (Playlist $playlist) {
         if (!Auth::check()) {
             return redirect('/');
@@ -310,12 +273,7 @@ Route::group(['middleware' => ['web']], function () {
 
         $playlist->delete();
 
+        // @todo with success & message that there's no way to delete from Spotify
         return redirect('/playlists');
     });
 });
-
-/*Route::group(['middleware' => 'web'], function () {
-    Route::auth();
-
-    Route::get('/home', 'HomeController@index');
-});*/
