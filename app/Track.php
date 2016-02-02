@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use DB;
 
 class Track extends Model
 {
@@ -39,4 +40,34 @@ class Track extends Model
     {
         return $this->belongsTo(Album::class);
     }
+
+    /**
+     * Dynamic order
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeDynamicOrderBy($query, $order)
+    {
+        switch ($order)
+        {
+            case 'added_desc':
+                return $query->orderBy('added_at', 'desc');
+                break;
+            case 'added_asc':
+                return $query->orderBy('added_at', 'asc');
+                break;
+            case 'artist':
+                return $query->orderBy('artist', 'asc');
+                break;
+            case 'name':
+                return $query->orderBy('name', 'asc');
+                break;
+            case 'random':
+                return $query->orderBy(DB::raw('RAND()'));
+                break;
+        }
+
+        return $query;
+    }
+
 }

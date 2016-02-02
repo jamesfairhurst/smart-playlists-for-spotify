@@ -66,6 +66,7 @@ Route::group(['middleware' => ['web']], function () {
             $api->addUserPlaylistTracks(Auth::user()->spotify_id, $playlist->id, ['3AL7gqIprtj52RdgTDpFUu','24JMNKkwLsQs3lpWgBri8B']);*/
 
             // Get saved Track count
+            $spotifyTrackCount = $spotifyTracks->total;
             $trackCount = Track::where('user_id', Auth::user()->id)->count();
 
             // Spotify Tracks don't match saved Tracks so refresh
@@ -77,7 +78,7 @@ Route::group(['middleware' => ['web']], function () {
                 $spotifyTracks = $spotifyTracks->items;
 
                 // Not dealt with all Tracks yet
-                if ($spotifyTracks->total > $limit) {
+                if ($spotifyTrackCount > $limit) {
                     while ($all != true) {
                         // Get next page of Spotify Tracks
                         $requestedTracks = $api->getMySavedTracks(['limit' => $limit, 'offset' => $offset]);
@@ -184,16 +185,27 @@ Route::group(['middleware' => ['web']], function () {
     });
 
     Route::get('/playlists', function () {
+        if (!Auth::check()) {
+            return redirect('/');
+        }
+
         $playlists = Playlist::orderBy('created_at', 'asc')->paginate();
 
         return view('playlists', ['playlists' => $playlists]);
     });
 
-    // @todo validate & save Rules
+    // @todo add Spotify Playlist
     Route::post('/playlist', function (Request $request) {
+        if (!Auth::check()) {
+            return redirect('/');
+        }
+
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
-            'rule.*.value' => 'required|max:255',
+            // 'rule.*.value' => 'required|max:255',
+        ], [
+            'rule.*.required' => 'This rule value must not be empty',
+            // 'rule.*.max' => 'This rule value must be less than 255 characters',
         ]);
 
         if ($validator->fails()) {
@@ -215,19 +227,87 @@ Route::group(['middleware' => ['web']], function () {
                 'name' => $request->name,
             ]);
 
-            $playlist->rules()->createMany($request->get('rule'));
+            // Get Rules and remove ones with empty values
+            // Playlists with empty values are allowed so that you could
+            // create a "25 most recently added" playlist for example
+            $rules = $request->get('rule');
+            foreach ($rules as $key => $rule) {
+                if (empty($rule['value'])) {
+                    unset($rules[$key]);
+                }
+            }
+            if (!empty($rules)) {
+                $playlist->rules()->createMany($request->get('rule'));
+            }
 
-        // Token expired
+        // Token expired @todo redirect with error
         } catch (SpotifyWebAPI\SpotifyWebAPIException $e) {
-            Auth::logout();
-
-            return redirect('auth/spotify');
+            return redirect('/playlists');
         }
 
         return redirect('/playlists');
     });
 
+    Route::get('/playlist/{playlist}', function (Playlist $playlist) {
+        if (!Auth::check()) {
+            return redirect('/');
+        }
+
+        if ($playlist->user_id != Auth::user()->id) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        return view('playlist', ['playlist' => $playlist, 'tracks' => $playlist->getTracks()]);
+    });
+
+    // @todo push to Spotify
+    Route::post('/playlist/{playlist}', function (Playlist $playlist) {
+        if (!Auth::check()) {
+            return redirect('/');
+        }
+
+        if ($playlist->user_id != Auth::user()->id) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $api = new SpotifyWebAPI\SpotifyWebAPI();
+        $api->setAccessToken(Auth::user()->token['access_token']);
+        // $me = $api->me();
+
+        try {
+            // Get/Create Spotify Playlist
+            if (!$playlist->spotify_id) {
+                $spotifyPlaylist = $api->createUserPlaylist(Auth::user()->spotify_id, [
+                    'name' => $playlist->name
+                ]);
+
+                $playlist->spotify_id = $spotifyPlaylist->id;
+                $playlist->save();
+            } else {
+                $spotifyPlaylist = $api->getUserPlaylist(Auth::user()->spotify_id, $playlist->spotify_id);
+            }
+
+        // Token expired @todo redirect with error
+        } catch (SpotifyWebAPI\SpotifyWebAPIException $e) {
+            return redirect('/playlists');
+        }
+
+        dd($spotifyPlaylist);
+        dd($playlist->getTracks());
+
+        return redirect('/playlists');
+    });
+
+    // @todo delete Spotify Playlist
     Route::delete('/playlist/{playlist}', function (Playlist $playlist) {
+        if (!Auth::check()) {
+            return redirect('/');
+        }
+
+        if ($playlist->user_id != Auth::user()->id) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $playlist->delete();
 
         return redirect('/playlists');
