@@ -17,6 +17,8 @@ class CreatePlaylistsTable extends Migration
             $table->integer('user_id')->index();
             $table->string('spotify_id');
             $table->string('name');
+            $table->string('order');
+            $table->integer('limit')->nullable()->default(null);
             $table->timestamps();
         });
     }
