@@ -66,8 +66,8 @@
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 @if ( ! Auth::guest())
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ url('/tracks') }}">Tracks</a></li>
-                    <li><a href="{{ url('/playlists') }}">Playlists</a></li>
+                    <li{!! (Request::is('tracks')) ? ' class="active"' : '' !!}><a href="{{ url('/tracks') }}">Tracks</a></li>
+                    <li{!! (Request::is('playlists')) ? ' class="active"' : '' !!}><a href="{{ url('/playlists') }}">Playlists</a></li>
                 </ul>
                 @endif
 
