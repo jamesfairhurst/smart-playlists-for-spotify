@@ -34,9 +34,9 @@
                             <option value="artist">Artist</option>
                             <option value="album">Album</option>
                             {{-- <option value="genre">Genre</option> --}}
-                            <option value="date_added">Date Added</option>
                             {{-- <option value="plays">Plays</option> --}}
                             <option value="year">Year</option>
+                            <option value="date_added">Date Added</option>
                         </select>
                     </div>
                     <div class="col-sm-2">
