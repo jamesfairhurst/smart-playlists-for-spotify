@@ -277,20 +277,23 @@ Route::group(['middleware' => ['web']], function () {
             abort(403, 'Unauthorized action');
         }
 
-        $api = new SpotifyWebAPI\SpotifyWebAPI();
-        $api->setAccessToken(Auth::user()->token['access_token']);
+        if ($playlist->spotify_id) {
+            $api = new SpotifyWebAPI\SpotifyWebAPI();
+            $api->setAccessToken(Auth::user()->token['access_token']);
 
-        try {
-            $api->unfollowPlaylist(Auth::user()->spotify_id, $playlist->spotify_id);
-        } catch (SpotifyWebAPI\SpotifyWebAPIException $e) {
-            Log::error($e->getMessage());
-            return redirect('/playlists')
-                ->withError('Something went wrong, please try again');
+            try {
+                // Unfollowing a Playlist is Spotify's way of deleting it
+                $api->unfollowPlaylist(Auth::user()->spotify_id, $playlist->spotify_id);
+            } catch (SpotifyWebAPI\SpotifyWebAPIException $e) {
+                Log::error($e->getMessage());
+                return redirect('/playlists')
+                    ->withError('Something went wrong, please try again');
+            }
         }
 
         $playlist->delete();
 
         return redirect('/playlists')
-            ->withSuccess('Playlist deleted and removed from Spotify');
+            ->withSuccess('Playlist deleted');
     });
 });
