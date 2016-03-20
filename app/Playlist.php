@@ -101,17 +101,17 @@ class Playlist extends Model
                 case 'album':
                     $tracks = $tracks->filter(function ($track, $key) use ($rule) {
                         if ($rule->comparison_operator == 'contains') {
-                            return (stripos($track->album, $rule->value) !== false);
+                            return (stripos($track->album->name, $rule->value) !== false);
                         } elseif ($rule->comparison_operator == 'not_contains') {
-                            return (stripos($track->album, $rule->value) === false);
+                            return (stripos($track->album->name, $rule->value) === false);
                         } elseif ($rule->comparison_operator == '=') {
-                            return (strcmp($track->album, $rule->value) === 0);
+                            return (strcmp($track->album->name, $rule->value) === 0);
                         } elseif ($rule->comparison_operator == '!=') {
-                            return (strcmp($track->album, $rule->value) !== 0);
+                            return (strcmp($track->album->name, $rule->value) !== 0);
                         } elseif ($rule->comparison_operator == 'begins_with') {
-                            return (stripos($track->album, $rule->value) === 0);
+                            return (stripos($track->album->name, $rule->value) === 0);
                         } elseif ($rule->comparison_operator == 'ends_with') {
-                            return (stripos(strrev($track->album), strrev($rule->value)) === 0);
+                            return (stripos(strrev($track->album->name), strrev($rule->value)) === 0);
                         }
                     });
                     break;
