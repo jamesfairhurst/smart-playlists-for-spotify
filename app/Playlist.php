@@ -8,7 +8,7 @@ use Carbon\Carbon;
 
 class Playlist extends Model
 {
-	/**
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
