@@ -66,8 +66,9 @@
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 @if ( ! Auth::guest())
                 <ul class="nav navbar-nav">
-                    <li{!! (Request::is('tracks')) ? ' class="active"' : '' !!}><a href="{{ url('/tracks') }}">Tracks</a></li>
-                    <li{!! (Request::is('playlists')) ? ' class="active"' : '' !!}><a href="{{ url('/playlists') }}">Playlists</a></li>
+                    <li{!! (Request::is('tracks')) ? ' class="active"' : '' !!}><a href="{{ url('/tracks') }}"> <i class="fa fa-music"></i> Tracks</a></li>
+                    <li{!! (Request::is('playlists')) ? ' class="active"' : '' !!}><a href="{{ url('/playlists') }}"><i class="fa fa-list"></i> Playlists</a></li>
+                    <li><a href="mailto:support@smartplaylistsforspotify.co.uk"><i class="fa fa-envelope-o"></i> Support</a></li>
                 </ul>
                 @endif
 
