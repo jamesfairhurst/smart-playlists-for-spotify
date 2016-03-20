@@ -135,7 +135,9 @@
                         <form action="{{ url('playlist/' . $playlist->id) }}" method="POST" class="visible-xs-inline visible-sm-inline visible-md-inline visible-lg-inline">
                             {!! csrf_field() !!}
 
-                            <button class="btn btn-default">Push</button>
+                            <button type="submit" class="btn btn-default btn-primary">
+                                <i class="fa fa-spotify"></i> Push to Spotify
+                            </button>
                         </form>
                         <form action="{{ url('playlist/' . $playlist->id) }}" method="POST" class="visible-xs-inline visible-sm-inline visible-md-inline visible-lg-inline">
                             {!! csrf_field() !!}
