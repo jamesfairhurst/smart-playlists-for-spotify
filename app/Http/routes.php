@@ -136,6 +136,7 @@ Route::group(['middleware' => ['web']], function () {
             }
 
         } catch (SpotifyWebAPI\SpotifyWebAPIException $e) {
+            Log::error($e->getMessage());
             return redirect('/tracks')
                 ->withError('Something went wrong, please try again');
         }
@@ -197,6 +198,7 @@ Route::group(['middleware' => ['web']], function () {
             }
 
         } catch (SpotifyWebAPI\SpotifyWebAPIException $e) {
+            Log::error($e->getMessage());
             return redirect('/playlists')
                 ->withError('Something went wrong, please try again');
         }
@@ -257,6 +259,7 @@ Route::group(['middleware' => ['web']], function () {
             }
 
         } catch (SpotifyWebAPI\SpotifyWebAPIException $e) {
+            Log::error($e->getMessage());
             return redirect('/playlists')
                 ->withError('Something went wrong, please try again');
         }
@@ -280,7 +283,7 @@ Route::group(['middleware' => ['web']], function () {
         try {
             $api->unfollowPlaylist(Auth::user()->spotify_id, $playlist->spotify_id);
         } catch (SpotifyWebAPI\SpotifyWebAPIException $e) {
-            echo '<pre>';echo print_r($e->getMessage(), true);echo '</pre>';exit;
+            Log::error($e->getMessage());
             return redirect('/playlists')
                 ->withError('Something went wrong, please try again');
         }
