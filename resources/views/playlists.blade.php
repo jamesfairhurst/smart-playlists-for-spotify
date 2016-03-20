@@ -130,7 +130,7 @@
                 <tr>
                     <td>{{ str_limit($playlist->name, 50) }}</td>
                     <td class="col-xs-3">{{ $playlist->created_at->format('d-m-Y H:i') }}</td>
-                    <td class="col-xs-4 col-md-3">
+                    <td class="col-xs-5 col-md-3 text-center">
                         <a href="{{ url('/playlist', [$playlist->id]) }}" class="btn btn-default">View</a>
                         <form action="{{ url('playlist/' . $playlist->id) }}" method="POST" class="visible-xs-inline visible-sm-inline visible-md-inline visible-lg-inline">
                             {!! csrf_field() !!}
@@ -143,7 +143,7 @@
                             {!! csrf_field() !!}
                             {!! method_field('DELETE') !!}
 
-                            <button class="btn btn-danger">Delete</button>
+                            <button type="submit" class="btn btn-danger">Delete</button>
                         </form>
                     </td>
                 </tr>
