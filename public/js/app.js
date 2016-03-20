@@ -30,4 +30,31 @@ $(function() {
         event.preventDefault();
         $(this).parents('.form-group').remove();
     });
+
+    // Add Playlist Rules
+    if ($('.filter-rule-row select:first').length) {
+        showHideFilterRuleComparisonOperators($('.filter-rule-row select:first'));
+    }
+    $(document).on('change', '.filter-rule-row select:first', function(event) {
+        showHideFilterRuleComparisonOperators($(this));
+
+        // Change placeholder text depending on selected Rule
+        var $input = $(this).parents('.filter-rule-row').find('input[type=text]');
+
+        if (this.value == 'artist') {
+            $input.attr('placeholder', 'Tenacious D');
+        } else if (this.value == 'album') {
+            $input.attr('placeholder', 'Rize of the Fenix');
+        } else if (this.value == 'year') {
+            $input.attr('placeholder', '2012');
+        } else if (this.value == 'date_added') {
+            $input.attr('placeholder', 'e.g. dd-mm-yyyy');
+        }
+    });
+
+    function showHideFilterRuleComparisonOperators($this) {
+        $this.parent().next().find('option').show();
+        $this.parent().next().find('option').not('.option-' + $this.val()).hide();
+        $this.parent().next().find('option:selected').prop('selected', false);
+    }
 });

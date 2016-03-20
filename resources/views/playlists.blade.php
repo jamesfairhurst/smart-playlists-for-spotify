@@ -41,16 +41,17 @@
                     </div>
                     <div class="col-sm-2">
                         <select name="rule[0][comparison_operator]" class="form-control">
-                            <option value="contains">contains</option>{{-- artist|album --}}
-                            <option value="not_contains">does not contain</option>{{-- artist|album --}}
-                            <option value="=">is</option>{{-- artist|album|date_added|year --}}
-                            <option value="!=">is not</option>{{-- artist|album|date_added|year --}}
-                            <option value="begins_with">begins with</option>{{-- artist|album --}}
-                            <option value="ends_with">ends with</option>{{-- artist|album --}}
-                            <option value=">">is greater than</option>{{-- year --}}
-                            <option value="<">is less than</option>{{-- year --}}
-                            <option value=">">is after</option>{{-- date_added --}}
-                            <option value="<">is before</option>{{-- date_added --}}
+                            <option value=""></option>{{-- artist|album --}}
+                            <option value="contains" class="option-artist option-album">contains</option>{{-- artist|album --}}
+                            <option value="not_contains" class="option-artist option-album">does not contain</option>{{-- artist|album --}}
+                            <option value="=" class="option-artist option-album option-date_added option-year">is</option>{{-- artist|album|date_added|year --}}
+                            <option value="!=" class="option-artist option-album option-date_added option-year">is not</option>{{-- artist|album|date_added|year --}}
+                            <option value="begins_with" class="option-artist option-album">begins with</option>{{-- artist|album --}}
+                            <option value="ends_with" class="option-artist option-album">ends with</option>{{-- artist|album --}}
+                            <option value=">" class="option-year">is greater than</option>{{-- year --}}
+                            <option value="<" class="option-year">is less than</option>{{-- year --}}
+                            <option value=">" class="option-date_added">is after</option>{{-- date_added --}}
+                            <option value="<" class="option-date_added">is before</option>{{-- date_added --}}
                         </select>
                     </div>
                     <div class="col-sm-3">
