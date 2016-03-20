@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use League\OAuth2\Client\Provider\GenericProvider;
+use App\Playlist;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -14,7 +15,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        // Delete Playlist Rules along with Playlist
+        Playlist::deleted(function ($playlist) {
+            $playlist->rules()->delete();
+        });
     }
 
     /**
