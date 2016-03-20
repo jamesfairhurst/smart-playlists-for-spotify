@@ -63,7 +63,9 @@ Route::group(['middleware' => ['web']], function () {
             // Spotify Tracks don't match saved Tracks so refresh
             if ($spotifyTracks->total != $trackCount) {
                 // Delete all User Tracks
-                Track::where('user_id', Auth::user()->id)->delete();
+                // Probably not the best option for the future if I need to 
+                // save extra data against User Tracks e.g. Last.fm play counts
+                // Track::where('user_id', Auth::user()->id)->delete();
 
                 // Get just the Tracks
                 $spotifyTracks = $spotifyTracks->items;
@@ -89,7 +91,8 @@ Route::group(['middleware' => ['web']], function () {
                 // Loop through all Spotify Tracks
                 foreach ($spotifyTracks as $spotifyTrack) {
                     // Skip Track if it already exists
-                    // Not sure if this is really needed as they're all truncated
+                    // Not sure if this is really needed as they're all deleted
+                    // at the beginning of this routine (not any more)
                     if (Track::where([
                         ['user_id', Auth::user()->id],
                         ['spotify_id', $spotifyTrack->track->id],
