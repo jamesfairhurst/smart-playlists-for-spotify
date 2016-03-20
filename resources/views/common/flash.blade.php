@@ -1,11 +1,11 @@
-@if (isset($success))
+@if (session('success'))
 <div class="alert bg-success">
-	{{ $success }}
+    {{ session('success') }}
 </div>
 @endif
 
-@if (isset($error))
+@if (session('error'))
 <div class="alert alert-danger">
-	{{ $error }}
+    {{ session('error') }}
 </div>
 @endif
