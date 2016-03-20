@@ -6,7 +6,7 @@
     @include('common.flash')
 
     <div class="page-header">
-        <h1>Your Playlist: {{ $playlist->name }}</h1>
+        <h1>Your <span class="text-muted">{{ $playlist->name }}</span> Playlist</h1>
     </div>
 
     <table class="table table-striped">
@@ -16,17 +16,21 @@
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($playlist->rules as $rule): ?>
+            @foreach ($playlist->rules as $rule)
             <tr>
                 <td>{{ $rule->key_nice }} <span class="text-muted">{{ $rule->comparison_operator_nice }}</span> <strong>{{ $rule->value }}</strong></td>
             </tr>
-            <?php endforeach; ?>
+            @endforeach
+            @if ($playlist->order_nice)
             <tr>
                 <td>Order by <strong>{{ $playlist->order_nice }}</strong></td>
             </tr>
+            @endif
+            @if ($playlist->limit)
             <tr>
                 <td>Limit <strong>{{ ($playlist->limit) ? $playlist->limit : 'n/a' }}</strong></td>
             </tr>
+            @endif
         </tbody>
     </table>
 
