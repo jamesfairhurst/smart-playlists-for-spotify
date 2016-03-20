@@ -23,6 +23,8 @@ $(function() {
             .find('.btn-danger').removeClass('hidden').end()
             // Finally add to end of filters
             .insertAfter('.filter-rule-row:last');
+
+            showHideFilterRuleComparisonOperators($('.filter-rule-row:last select:first'));
     });
 
     // Remove Playlist rule
