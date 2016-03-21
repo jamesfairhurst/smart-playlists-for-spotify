@@ -93,7 +93,7 @@
 
     <footer class="footer">
       <div class="container">
-        <p class="text-muted text-center">Made with <a href="https://laravel.com" target="_blank">Laravel</a> by <a href="http://www.jamesfairhurst.co.uk" target="_blank">James Fairhurst</a></p>
+        <p class="text-muted text-center">Made with <a href="https://laravel.com" target="_blank">Laravel</a> by <a href="http://www.jamesfairhurst.co.uk" target="_blank">James Fairhurst</a> fueled by <a href="https://pactcoffee.com/?voucher=JAMES-XIKO8G" target="_blank"><i class="fa fa-coffee"></i></a> <a href="http://www.bakingbad.co.uk/2013/07/my-favourite-carrot-cake/" target="_blank"><i class="fa fa-birthday-cake"></i></a> <a href="http://www.leffe.com/en/beers/leffe-blond" target="_blank"><i class="fa fa-beer"></i></a></p>
       </div>
     </footer>
 
