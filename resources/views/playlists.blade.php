@@ -10,7 +10,7 @@
     </div>
 
     <div class="panel panel-default">
-        <div class="panel-heading">New Playlist</div>
+        <div class="panel-heading">Setup a new Playlist, you'll be able to view it before pushing it to Spotify</div>
 
         <div class="panel-body">
             @include('common.errors')
@@ -21,7 +21,7 @@
                 <div class="form-group">
                     <label for="playlist-name" class="col-sm-3 control-label">Name</label>
 
-                    <div class="col-sm-6">
+                    <div class="col-sm-9">
                         <input type="text" name="name" id="playlist-name" class="form-control" value="{{ old('name') }}" placeholder="This is not The Greatest Playlist in the World...">
                     </div>
                 </div>
@@ -57,12 +57,12 @@
                     <div class="col-sm-3">
                         <input type="text" name="rule[0][value]" class="form-control" placeholder="Tenacious D">
                     </div>
-                    <div class="col-sm-1">
-                        <button type="button" class="btn btn-default btn-success" aria-label="Left Align">
-                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                    <div class="col-sm-1 text-right">
+                        <button type="button" class="btn btn-sm btn-default btn-success">
+                            <span class="fa fa-plus"></span>
                         </button>
-                        <button type="button" class="btn btn-default btn-danger hidden" aria-label="Left Align">
-                            <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                        <button type="button" class="btn btn-sm btn-default btn-danger hidden">
+                            <span class="fa fa-minus"></span>
                         </button>
                     </div>
                 </div>
@@ -70,7 +70,7 @@
                 <div class="form-group">
                     <label for="playlist-limit" class="col-sm-3 control-label">Limit?</label>
 
-                    <div class="col-sm-6">
+                    <div class="col-sm-9">
                         <input type="text" name="limit" id="playlist-limit" class="form-control" value="{{ old('limit') }}" placeholder="Leave blank for no limit">
                     </div>
                 </div>
@@ -78,7 +78,7 @@
                 <div class="form-group">
                     <label for="playlist-order" class="col-sm-3 control-label">Order</label>
 
-                    <div class="col-sm-6">
+                    <div class="col-sm-9">
                         {{-- <input type="text" name="order" id="playlist-order" class="form-control" value="{{ old('order') }}"> --}}
                         <select name="order" id="playlist-order" class="form-control">
                             <option value="added_desc">Date Added Desc</option>

@@ -1,6 +1,6 @@
 $(function() {
     // Add Playlist rule
-    $('.glyphicon-plus').parent().on('click', function(event) {
+    $('.fa-plus').parent().on('click', function(event) {
         event.preventDefault();
 
         // Get number of current rules, used to index new rules correctly
@@ -28,7 +28,7 @@ $(function() {
     });
 
     // Remove Playlist rule
-    $('.glyphicon-minus').parent().on('click', function(event) {
+    $('.fa-minus').parent().on('click', function(event) {
         event.preventDefault();
         $(this).parents('.form-group').remove();
     });
