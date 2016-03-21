@@ -22,7 +22,7 @@ class Track extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'album_id', 'spotify_id', 'artist', 'name', 'added_at'
+        'user_id', 'artist_id', 'album_id', 'spotify_id', 'name', 'added_at'
     ];
 
     /**
@@ -31,6 +31,14 @@ class Track extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Artist
+     */
+    public function artist()
+    {
+        return $this->belongsTo(Artist::class);
     }
 
     /**

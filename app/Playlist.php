@@ -52,7 +52,7 @@ class Playlist extends Model
     public function getTracks()
     {
         // Get all Tracks
-        $tracks = Track::with('album')
+        $tracks = Track::with('album','artist')
             ->where('user_id', Auth::user()->id)
             // ->whereHas('album', function ($query) {
             //     $query->where(DB::raw('YEAR(released_at)'), 2015);
@@ -84,17 +84,17 @@ class Playlist extends Model
                 case 'artist':
                     $tracks = $tracks->filter(function ($track, $key) use ($rule) {
                         if ($rule->comparison_operator == 'contains') {
-                            return (stripos($track->artist, $rule->value) !== false);
+                            return (stripos($track->artist->name, $rule->value) !== false);
                         } elseif ($rule->comparison_operator == 'not_contains') {
-                            return (stripos($track->artist, $rule->value) === false);
+                            return (stripos($track->artist->name, $rule->value) === false);
                         } elseif ($rule->comparison_operator == '=') {
-                            return (strcmp($track->artist, $rule->value) === 0);
+                            return (strcmp($track->artist->name, $rule->value) === 0);
                         } elseif ($rule->comparison_operator == '!=') {
-                            return (strcmp($track->artist, $rule->value) !== 0);
+                            return (strcmp($track->artist->name, $rule->value) !== 0);
                         } elseif ($rule->comparison_operator == 'begins_with') {
-                            return (stripos($track->artist, $rule->value) === 0);
+                            return (stripos($track->artist->name, $rule->value) === 0);
                         } elseif ($rule->comparison_operator == 'ends_with') {
-                            return (stripos(strrev($track->artist), strrev($rule->value)) === 0);
+                            return (stripos(strrev($track->artist->name), strrev($rule->value)) === 0);
                         }
                     });
                     break;

@@ -1,6 +1,7 @@
 <?php
 
 use App\Track;
+use App\Artist;
 use App\Album;
 use App\Playlist;
 use Illuminate\Http\Request;
@@ -100,6 +101,16 @@ Route::group(['middleware' => ['web']], function () {
                         continue;
                     }
 
+                    // Check for existing Artist
+                    $artist = Artist::where('spotify_id', $spotifyTrack->track->artists[0]->id)->first();
+
+                    if (is_null($artist)) {
+                        $artist = Artist::create([
+                            'spotify_id' => $spotifyTrack->track->artists[0]->id,
+                            'name'       => $spotifyTrack->track->artists[0]->name
+                        ]);
+                    }
+
                     // Check for existing Album
                     $album = Album::where('spotify_id', $spotifyTrack->track->album->id)->first();
 
@@ -116,6 +127,7 @@ Route::group(['middleware' => ['web']], function () {
                         }
 
                         $album = Album::create([
+                            'artist_id'   => $artist->id,
                             'spotify_id'  => $spotifyAlbum['id'],
                             'name'        => $spotifyAlbum['name'],
                             'released_at' => $spotifyAlbum['release_date'],
@@ -125,9 +137,9 @@ Route::group(['middleware' => ['web']], function () {
                     // Create Track
                     $track = Track::create([
                         'user_id'    => Auth::user()->id,
+                        'artist_id'  => $artist->id,
                         'album_id'   => $album->id,
                         'spotify_id' => $spotifyTrack->track->id,
-                        'artist'     => $spotifyTrack->track->artists[0]->name,
                         'album'      => $spotifyTrack->track->album->name,
                         'name'       => $spotifyTrack->track->name,
                         'added_at'   => Carbon::parse($spotifyTrack->added_at)->format('Y-m-d H:i:s')
@@ -147,7 +159,7 @@ Route::group(['middleware' => ['web']], function () {
             ->orderBy('added_at', 'desc')
             ->paginate();
 
-        return view('home', ['tracks' => $tracks]);
+        return view('tracks', ['tracks' => $tracks]);
     });
 
     Route::get('/playlists', function () {

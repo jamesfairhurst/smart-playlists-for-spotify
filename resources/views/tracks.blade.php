@@ -22,7 +22,7 @@
             <tbody>
                 <?php foreach ($tracks as $track): ?>
                 <tr>
-                    <td>{{ $track->artist }}</td>
+                    <td>{{ $track->artist->name }}</td>
                     <td>{{ $track->album->name }}</td>
                     <td>{{ str_limit($track->name, 50) }}</td>
                     <td>{{ $track->added_at->format('d-m-Y H:i') }}</td>

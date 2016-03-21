@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Album extends Model
+class Artist extends Model
 {
     /**
      * The attributes that should be mutated to dates.
@@ -12,7 +12,7 @@ class Album extends Model
      * @var array
      */
     protected $dates = [
-        'created_at', 'updated_at', 'released_at'
+        'created_at', 'updated_at'
     ];
 
     /**
@@ -21,15 +21,15 @@ class Album extends Model
      * @var array
      */
     protected $fillable = [
-        'artist_id', 'track_id', 'spotify_id', 'name', 'released_at'
+        'spotify_id', 'name'
     ];
 
     /**
-     * Artist
+     * Albums
      */
-    public function artist()
+    public function albums()
     {
-        return $this->belongsTo(Artist::class);
+        return $this->hasMany(Album::class);
     }
 
     /**
