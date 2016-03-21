@@ -1,6 +1,6 @@
 $(function() {
     // Add Playlist rule
-    $('.fa-plus').parent().on('click', function(event) {
+    $('.filter-rule-row .fa-plus').parent().on('click', function(event) {
         event.preventDefault();
 
         // Get number of current rules, used to index new rules correctly
@@ -28,7 +28,7 @@ $(function() {
     });
 
     // Remove Playlist rule
-    $('.fa-minus').parent().on('click', function(event) {
+    $('.filter-rule-row .fa-minus').parent().on('click', function(event) {
         event.preventDefault();
         $(this).parents('.form-group').remove();
     });
