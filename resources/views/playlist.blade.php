@@ -6,6 +6,13 @@
     @include('common.flash')
 
     <div class="page-header">
+        <form action="{{ url('playlist/' . $playlist->id) }}" method="POST" class="visible-xs-inline visible-sm-inline visible-md-inline visible-lg-inline pull-right">
+            {!! csrf_field() !!}
+
+            <button type="submit" class="btn btn-default btn-primary">
+                <i class="fa fa-spotify"></i> Push to Spotify
+            </button>
+        </form>
         <h1>Your <span class="text-muted">{{ $playlist->name }}</span> Playlist</h1>
     </div>
 
