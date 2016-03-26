@@ -21,7 +21,7 @@ class Artist extends Model
      * @var array
      */
     protected $fillable = [
-        'spotify_id', 'name'
+        'spotify_id', 'name', 'spotify_href', 'spotify_uri'
     ];
 
     /**

@@ -106,8 +106,10 @@ Route::group(['middleware' => ['web']], function () {
 
                     if (is_null($artist)) {
                         $artist = Artist::create([
-                            'spotify_id' => $spotifyTrack->track->artists[0]->id,
-                            'name'       => $spotifyTrack->track->artists[0]->name
+                            'spotify_id'   => $spotifyTrack->track->artists[0]->id,
+                            'name'         => $spotifyTrack->track->artists[0]->name,
+                            'spotify_href' => $spotifyTrack->track->artists[0]->href,
+                            'spotify_uri'  => $spotifyTrack->track->artists[0]->uri,
                         ]);
                     }
 
@@ -117,7 +119,8 @@ Route::group(['middleware' => ['web']], function () {
                     // Album not found so create it
                     if (is_null($album)) {
                         // Get Spotify Album
-                        $spotifyAlbum = json_decode(file_get_contents($spotifyTrack->track->album->href), true);
+                        $spotifyAlbumJson = file_get_contents($spotifyTrack->track->album->href);
+                        $spotifyAlbum = json_decode($spotifyAlbumJson, true);
 
                         // Date changes based on precision so always make it a full date
                         if ($spotifyAlbum['release_date_precision'] == 'year') {
@@ -127,10 +130,11 @@ Route::group(['middleware' => ['web']], function () {
                         }
 
                         $album = Album::create([
-                            'artist_id'   => $artist->id,
-                            'spotify_id'  => $spotifyAlbum['id'],
-                            'name'        => $spotifyAlbum['name'],
-                            'released_at' => $spotifyAlbum['release_date'],
+                            'artist_id'    => $artist->id,
+                            'spotify_id'   => $spotifyAlbum['id'],
+                            'name'         => $spotifyAlbum['name'],
+                            'released_at'  => $spotifyAlbum['release_date'],
+                            'spotify_data' => $spotifyAlbumJson,
                         ]);
                     }
 

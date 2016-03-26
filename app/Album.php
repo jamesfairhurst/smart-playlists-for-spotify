@@ -21,7 +21,7 @@ class Album extends Model
      * @var array
      */
     protected $fillable = [
-        'artist_id', 'track_id', 'spotify_id', 'name', 'released_at'
+        'artist_id', 'track_id', 'spotify_id', 'name', 'released_at', 'spotify_data'
     ];
 
     /**
