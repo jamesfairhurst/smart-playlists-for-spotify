@@ -73,8 +73,8 @@ class AuthController extends Controller
             $user = $this->provider->getResourceOwner($token)->toArray();
 
         } catch (Exception $e) {
-            // @todo include error
-            return redirect('/');
+            return redirect('/')
+                ->withError($e->getMessage());
         }
 
         $authUser = $this->findOrCreateUser($user, $token);
