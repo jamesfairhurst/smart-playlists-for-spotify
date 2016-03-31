@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.drunken-parrot')
 
 @section('content')
 <div class="container">
@@ -9,7 +9,7 @@
         <form action="{{ url('playlist/' . $playlist->id) }}" method="POST" class="visible-xs-inline visible-sm-inline visible-md-inline visible-lg-inline pull-right">
             {!! csrf_field() !!}
 
-            <button type="submit" class="btn btn-default btn-primary">
+            <button type="submit" class="btn btn-primary btn-embossed">
                 <i class="fa fa-spotify"></i> Push to Spotify
             </button>
         </form>

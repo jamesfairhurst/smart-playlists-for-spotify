@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.drunken-parrot')
 
 @section('content')
 <div class="container">
@@ -58,10 +58,10 @@
                         <input type="text" name="rule[0][value]" class="form-control" placeholder="Tenacious D">
                     </div>
                     <div class="col-sm-1 text-right">
-                        <button type="button" class="btn btn-sm btn-default btn-success">
+                        <button type="button" class="btn btn-success btn-embossed">
                             <span class="fa fa-plus"></span>
                         </button>
-                        <button type="button" class="btn btn-sm btn-default btn-danger hidden">
+                        <button type="button" class="btn btn-danger btn-embossed hidden">
                             <span class="fa fa-minus"></span>
                         </button>
                     </div>
@@ -108,7 +108,7 @@
 
                 <div class="form-group">
                     <div class="col-sm-offset-3 col-sm-6">
-                        <button type="submit" class="btn btn-default btn-primary">
+                        <button type="submit" class="btn btn-primary btn-embossed">
                             <i class="fa fa-plus"></i> Add Playlist
                         </button>
                     </div>
@@ -131,12 +131,12 @@
                 <tr>
                     <td>{{ str_limit($playlist->name, 50) }}</td>
                     <td class="col-xs-3">{{ $playlist->created_at->format('d-m-Y H:i') }}</td>
-                    <td class="col-xs-5 col-md-3 text-center">
-                        <a href="{{ url('/playlist', [$playlist->id]) }}" class="btn btn-default">View</a>
+                    <td class="col-xs-5 col-md-4 text-center">
+                        <a href="{{ url('/playlist', [$playlist->id]) }}" class="btn btn-sm btn-default">View</a>
                         <form action="{{ url('playlist/' . $playlist->id) }}" method="POST" class="visible-xs-inline visible-sm-inline visible-md-inline visible-lg-inline">
                             {!! csrf_field() !!}
 
-                            <button type="submit" class="btn btn-default btn-primary">
+                            <button type="submit" class="btn btn-sm btn-primary">
                                 <i class="fa fa-spotify"></i> Push to Spotify
                             </button>
                         </form>
@@ -144,7 +144,7 @@
                             {!! csrf_field() !!}
                             {!! method_field('DELETE') !!}
 
-                            <button type="submit" class="btn btn-danger">Delete</button>
+                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
                         </form>
                     </td>
                 </tr>
