@@ -197,7 +197,9 @@ Route::group(['middleware' => ['web']], function () {
 
         try {
             $playlist = $request->user()->playlists()->create([
-                'name' => $request->name,
+                'name'  => $request->name,
+                'order' => $request->order,
+                'limit' => $request->limit,
             ]);
 
             // Get Rules and remove ones with empty values
