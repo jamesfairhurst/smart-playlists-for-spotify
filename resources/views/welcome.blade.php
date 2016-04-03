@@ -6,7 +6,7 @@
     <div class="jumbotron">
         <h1>Smart Playlists for Spotify</h1>
         <p class="lead">Tired of manually creating Playlists from your saved Tracks? This tool will help you create Smart Playlists based on Track &amp; Album rules. Just login with your Spotify account below to see a full list of all your Tracks and create your first Smart Playlist.</p>
-        <p><a href="{{ url('auth/spotify') }}"><img src="{{ asset('img/spotify_buttons/log_in_with_spotify/svg/log_in-desktop.svg') }}" width="30%;"></a></p>
+        <p style="margin: 0;"><a href="{{ url('auth/spotify') }}"><img src="{{ asset('img/spotify_buttons/log_in_with_spotify/svg/log_in-desktop.svg') }}" width="30%;"></a></p>
     </div>
     
 </div>
@@ -48,6 +48,7 @@
         <div class="col-md-4 text-center">
           <h2>About</h2>
           <p>Coming from iTunes and being able to easily create Smart Playlists I became frustrated with not being able to create them in Spotify so I made this.</p>
+          <p>The app asks for the <strong>playlist-modify-public</strong> &amp; <strong>user-library-read</strong> <a href="https://developer.spotify.com/web-api/using-scopes/">scopes</a> which is pretty restrictive and the bare minimum required to read your Tracks and create Playlists from them.</p>
           <p>All feedback and suggestions welcome just <a href="mailto:support@smartplaylistsforspotify.co.uk">email me</a>.</p>
         </div>
       </div>
