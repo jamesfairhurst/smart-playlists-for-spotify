@@ -19,3 +19,33 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'remember_token' => str_random(10),
     ];
 });
+
+$factory->define(App\Track::class, function (Faker\Generator $faker) {
+    return [
+        'user_id' => 1,
+        'artist_id' => 1,
+        // 'album_id' => 1,
+        'album_id' => function () {
+            return factory(App\Album::class)->create()->id;
+        },
+        'spotify_id' => $faker->uuid,
+        'name' => $faker->name,
+        'added_at' => $faker->dateTimeThisYear,
+    ];
+});
+
+$factory->define(App\Album::class, function (Faker\Generator $faker) {
+    return [
+        'artist_id' => 1,
+        'spotify_id' => $faker->uuid,
+        'name' => $faker->name,
+        'released_at' => $faker->date(),
+    ];
+});
+
+$factory->define(App\Artist::class, function (Faker\Generator $faker) {
+    return [
+        'spotify_id' => $faker->uuid,
+        'name' => $faker->name,
+    ];
+});
