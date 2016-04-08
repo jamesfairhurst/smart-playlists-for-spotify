@@ -52,23 +52,41 @@ class Track extends Model
     /**
      * Dynamic order
      *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param string $order
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeDynamicOrderBy($query, $order)
     {
-        switch ($order)
-        {
+        switch ($order) {
             case 'added_desc':
                 return $query->orderBy('added_at', 'desc');
                 break;
             case 'added_asc':
                 return $query->orderBy('added_at', 'asc');
                 break;
+            case 'album':
+                return $query->join('albums as a', 'a.id', '=', 'tracks.album_id')
+                             ->select('tracks.*')
+                             ->orderBy('a.name', 'asc');
+                break;
             case 'artist':
-                return $query->orderBy('artist', 'asc');
+                return $query->join('artists as a', 'a.id', '=', 'tracks.artist_id')
+                             ->select('tracks.*')
+                             ->orderBy('a.name', 'asc');
                 break;
             case 'name':
                 return $query->orderBy('name', 'asc');
+                break;
+            case 'year_desc':
+                return $query->join('albums as a', 'a.id', '=', 'tracks.album_id')
+                             ->select('tracks.*')
+                             ->orderBy('a.released_at', 'desc');
+                break;
+            case 'year_asc':
+                return $query->join('albums as a', 'a.id', '=', 'tracks.album_id')
+                             ->select('tracks.*')
+                             ->orderBy('a.released_at', 'asc');
                 break;
             case 'random':
                 return $query->orderBy(DB::raw('RAND()'));
@@ -77,5 +95,4 @@ class Track extends Model
 
         return $query;
     }
-
 }
