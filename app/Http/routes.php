@@ -222,7 +222,7 @@ Route::group(['middleware' => ['web']], function () {
             abort(403, 'Unauthorized action');
         }
 
-        return view('playlist', ['playlist' => $playlist, 'tracks' => $playlist->getTracks()]);
+        return view('playlist', ['playlist' => $playlist, 'tracks' => $playlist->tracks()]);
     });
 
     Route::post('/playlist/{playlist}', function (Playlist $playlist) {
@@ -251,7 +251,7 @@ Route::group(['middleware' => ['web']], function () {
             }
 
             // Chunk Spotify Track Ids into 100s as that's the limit
-            $spotifyIdChunks = $playlist->getTracks()->pluck('spotify_id')->chunk(100);
+            $spotifyIdChunks = $playlist->tracks()->pluck('spotify_id')->chunk(100);
             foreach ($spotifyIdChunks as $key => $chunk) {
                 // Replace the first chunk of Tracks
                 // Basically clears the Playlist to start fresh

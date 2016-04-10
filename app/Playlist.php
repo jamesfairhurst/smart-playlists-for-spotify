@@ -49,7 +49,7 @@ class Playlist extends Model
      * 
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getTracks()
+    public function tracks()
     {
         // Get all Tracks
         $tracks = Track::with('album','artist')
