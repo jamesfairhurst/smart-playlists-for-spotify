@@ -80,13 +80,17 @@ class Track extends Model
                 break;
             case 'year_desc':
                 return $query->join('albums as a', 'a.id', '=', 'tracks.album_id')
+                             ->join('artists as a1', 'a1.id', '=', 'tracks.artist_id')
                              ->select('tracks.*')
-                             ->orderBy('a.released_at', 'desc');
+                             ->orderBy('a.released_at', 'desc')
+                             ->orderBy('a1.name', 'asc');
                 break;
             case 'year_asc':
                 return $query->join('albums as a', 'a.id', '=', 'tracks.album_id')
+                             ->join('artists as a1', 'a1.id', '=', 'tracks.artist_id')
                              ->select('tracks.*')
-                             ->orderBy('a.released_at', 'asc');
+                             ->orderBy('a.released_at', 'asc')
+                             ->orderBy('a1.name', 'asc');
                 break;
             case 'random':
                 return $query->orderBy(DB::raw('RAND()'));

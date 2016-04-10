@@ -154,6 +154,42 @@ class TrackTest extends TestCase
      *
      * @return void
      */
+    public function testScopeDynamicOrderByYearDescAndArtist()
+    {
+        $artist1 = factory(App\Artist::class)->create([
+            'name' => 'ZZZ'
+        ]);
+        $artist2 = factory(App\Artist::class)->create([
+            'name' => 'AAA'
+        ]);
+        $album1 = factory(App\Album::class)->create([
+            'artist_id' => $artist1->id,
+            'released_at' => Carbon::now()
+        ]);
+        $album2 = factory(App\Album::class)->create([
+            'artist_id' => $artist2->id,
+            'released_at' => Carbon::now()
+        ]);
+        $track1 = factory(App\Track::class)->create([
+            'artist_id' => $artist1->id,
+            'album_id' => $album1->id
+        ]);
+        $track2 = factory(App\Track::class)->create([
+            'artist_id' => $artist2->id,
+            'album_id' => $album2->id
+        ]);
+
+        $tracks = App\Track::dynamicOrderBy('year_desc')->get();
+
+        $this->assertEquals($tracks[0]->id, 2);
+        $this->assertEquals($tracks[1]->id, 1);
+    }
+
+    /**
+     * Test Track 'year_desc' order by scope.
+     *
+     * @return void
+     */
     public function testScopeDynamicOrderByYearAsc()
     {
         $album1 = factory(App\Album::class)->create([
@@ -173,6 +209,43 @@ class TrackTest extends TestCase
 
         $this->assertEquals($tracks[0]->id, 1);
         $this->assertEquals($tracks[1]->id, 2);
+    }
+
+    /**
+     * Test Track 'year_desc' order by scope.
+     *
+     * @group current
+     * @return void
+     */
+    public function testScopeDynamicOrderByYearAscAndArtist()
+    {
+        $artist1 = factory(App\Artist::class)->create([
+            'name' => 'ZZZ'
+        ]);
+        $artist2 = factory(App\Artist::class)->create([
+            'name' => 'AAA'
+        ]);
+        $album1 = factory(App\Album::class)->create([
+            'artist_id' => $artist1->id,
+            'released_at' => Carbon::now()
+        ]);
+        $album2 = factory(App\Album::class)->create([
+            'artist_id' => $artist2->id,
+            'released_at' => Carbon::now()
+        ]);
+        $track1 = factory(App\Track::class)->create([
+            'artist_id' => $artist1->id,
+            'album_id' => $album1->id
+        ]);
+        $track2 = factory(App\Track::class)->create([
+            'artist_id' => $artist2->id,
+            'album_id' => $album2->id
+        ]);
+
+        $tracks = App\Track::dynamicOrderBy('year_asc')->get();
+
+        $this->assertEquals($tracks[0]->id, 2);
+        $this->assertEquals($tracks[1]->id, 1);
     }
 
     /**

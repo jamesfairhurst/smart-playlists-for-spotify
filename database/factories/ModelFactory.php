@@ -24,7 +24,6 @@ $factory->define(App\Track::class, function (Faker\Generator $faker) {
     return [
         'user_id' => 1,
         'artist_id' => 1,
-        // 'album_id' => 1,
         'album_id' => function () {
             return factory(App\Album::class)->create()->id;
         },
@@ -36,7 +35,9 @@ $factory->define(App\Track::class, function (Faker\Generator $faker) {
 
 $factory->define(App\Album::class, function (Faker\Generator $faker) {
     return [
-        'artist_id' => 1,
+        'artist_id' => function () {
+            return factory(App\Artist::class)->create()->id;
+        },
         'spotify_id' => $faker->uuid,
         'name' => $faker->name,
         'released_at' => $faker->date(),

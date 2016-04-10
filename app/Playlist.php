@@ -152,7 +152,7 @@ class Playlist extends Model
         });*/
 
         // Sort the playlist manually
-        if ($this->order == 'album') {
+        /*if ($this->order == 'album') {
             // Compare Album name
             $tracks = $tracks->sort(function ($a, $b) {
                 return strcmp($a->album->name, $b->album->name);
@@ -182,7 +182,7 @@ class Playlist extends Model
                 // Compare Years 2nd then 1st to reverse
                 return strcmp($second->album->released_at->format('Y'), $first->album->released_at->format('Y'));
             });
-        }
+        }*/
 
         // Finally limit the playlist
         if ($this->limit) {
