@@ -23,7 +23,9 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 $factory->define(App\Track::class, function (Faker\Generator $faker) {
     return [
         'user_id' => 1,
-        'artist_id' => 1,
+        'artist_id' => function () {
+            return factory(App\Artist::class)->create()->id;
+        },
         'album_id' => function () {
             return factory(App\Album::class)->create()->id;
         },
