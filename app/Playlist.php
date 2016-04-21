@@ -2,9 +2,9 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
 use Auth;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 
 class Playlist extends Model
 {
@@ -92,9 +92,9 @@ class Playlist extends Model
                         } elseif ($rule->comparison_operator == '!=') {
                             return (strcmp($track->artist->name, $rule->value) !== 0);
                         } elseif ($rule->comparison_operator == 'begins_with') {
-                            return (stripos($track->artist->name, $rule->value) === 0);
+                            return (strpos($track->artist->name, $rule->value) === 0);
                         } elseif ($rule->comparison_operator == 'ends_with') {
-                            return (stripos(strrev($track->artist->name), strrev($rule->value)) === 0);
+                            return (strpos(strrev($track->artist->name), strrev($rule->value)) === 0);
                         }
                     });
                     break;
@@ -109,9 +109,9 @@ class Playlist extends Model
                         } elseif ($rule->comparison_operator == '!=') {
                             return (strcmp($track->album->name, $rule->value) !== 0);
                         } elseif ($rule->comparison_operator == 'begins_with') {
-                            return (stripos($track->album->name, $rule->value) === 0);
+                            return (strpos($track->album->name, $rule->value) === 0);
                         } elseif ($rule->comparison_operator == 'ends_with') {
-                            return (stripos(strrev($track->album->name), strrev($rule->value)) === 0);
+                            return (strpos(strrev($track->album->name), strrev($rule->value)) === 0);
                         }
                     });
                     break;

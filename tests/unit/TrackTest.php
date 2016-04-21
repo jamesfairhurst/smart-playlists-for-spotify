@@ -1,19 +1,14 @@
 <?php
 
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Carbon\Carbon;
 
 class TrackTest extends TestCase
 {
     use DatabaseMigrations;
 
-    /**
-     * Test Track 'added_desc' order by scope.
-     *
-     * @return void
-     */
     public function testScopeDynamicOrderByAddedDesc()
     {
         factory(App\Track::class)->create([
@@ -29,11 +24,6 @@ class TrackTest extends TestCase
         $this->assertEquals($tracks[1]->id, 1);
     }
 
-    /**
-     * Test Track 'added_asc' order by scope.
-     *
-     * @return void
-     */
     public function testScopeDynamicOrderByAddedAsc()
     {
         factory(App\Track::class)->create([
@@ -49,11 +39,6 @@ class TrackTest extends TestCase
         $this->assertEquals($tracks[1]->id, 2);
     }
 
-    /**
-     * Test Track 'album' order by scope.
-     *
-     * @return void
-     */
     public function testScopeDynamicOrderByAlbum()
     {
         $album1 = factory(App\Album::class)->create([
@@ -77,11 +62,6 @@ class TrackTest extends TestCase
         $this->assertEquals($tracks[1]->name, $track1->name);
     }
 
-    /**
-     * Test Track 'artist' order by scope.
-     *
-     * @return void
-     */
     public function testScopeDynamicOrderByArtist()
     {
         $artist1 = factory(App\Artist::class)->create([
@@ -103,11 +83,6 @@ class TrackTest extends TestCase
         $this->assertEquals($tracks[1]->id, 1);
     }
 
-    /**
-     * Test Track 'name' order by scope.
-     *
-     * @return void
-     */
     public function testScopeDynamicOrderByName()
     {
         factory(App\Track::class)->create([
@@ -123,11 +98,6 @@ class TrackTest extends TestCase
         $this->assertEquals($tracks[1]->id, 1);
     }
 
-    /**
-     * Test Track 'year_desc' order by scope.
-     *
-     * @return void
-     */
     public function testScopeDynamicOrderByYearDesc()
     {
         $album1 = factory(App\Album::class)->create([
@@ -149,11 +119,6 @@ class TrackTest extends TestCase
         $this->assertEquals($tracks[1]->id, 1);
     }
 
-    /**
-     * Test Track 'year_desc' order by scope.
-     *
-     * @return void
-     */
     public function testScopeDynamicOrderByYearDescAndArtist()
     {
         $artist1 = factory(App\Artist::class)->create([
@@ -185,11 +150,6 @@ class TrackTest extends TestCase
         $this->assertEquals($tracks[1]->id, 1);
     }
 
-    /**
-     * Test Track 'year_desc' order by scope.
-     *
-     * @return void
-     */
     public function testScopeDynamicOrderByYearAsc()
     {
         $album1 = factory(App\Album::class)->create([
@@ -211,12 +171,6 @@ class TrackTest extends TestCase
         $this->assertEquals($tracks[1]->id, 2);
     }
 
-    /**
-     * Test Track 'year_desc' order by scope.
-     *
-     * @group current
-     * @return void
-     */
     public function testScopeDynamicOrderByYearAscAndArtist()
     {
         $artist1 = factory(App\Artist::class)->create([
