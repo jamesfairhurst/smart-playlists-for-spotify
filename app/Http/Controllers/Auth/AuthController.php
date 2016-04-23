@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
-use App\Http\Controllers\Controller;
 use Auth;
-use Illuminate\Http\Request;
+use Event;
 use Exception;
+use App\User;
+use App\Events\UserWasCreated;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
@@ -100,12 +102,16 @@ class AuthController extends Controller
             return $authUser;
         }
 
-        return User::create([
+        $user = User::create([
             'spotify_id' => $spotifyUser['id'],
             'name'       => $spotifyUser['display_name'],
             'avatar'     => ((isset($spotifyUser['images'][0]['url'])) ? $spotifyUser['images'][0]['url'] : ''),
             'token'      => json_encode($spotifyToken),
         ]);
+
+        Event::fire(new UserWasCreated($user));
+
+        return $user;
     }
 
 }

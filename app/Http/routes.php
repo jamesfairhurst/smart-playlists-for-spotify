@@ -1,11 +1,11 @@
 <?php
 
-use Illuminate\Http\Request;
-use Carbon\Carbon;
-use App\Track;
-use App\Artist;
 use App\Album;
+use App\Artist;
 use App\Playlist;
+use App\Track;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
