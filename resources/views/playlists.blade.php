@@ -127,7 +127,7 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($playlists as $playlist): ?>
+                @foreach ($playlists as $playlist)
                 <tr>
                     <td>{{ str_limit($playlist->name, 50) }}</td>
                     <td class="col-xs-3">{{ $playlist->created_at->format('d-m-Y H:i') }}</td>
@@ -148,7 +148,7 @@
                         </form>
                     </td>
                 </tr>
-                <?php endforeach; ?>
+                @endforeach
             </tbody>
         </table>
 
