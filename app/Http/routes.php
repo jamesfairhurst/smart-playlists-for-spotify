@@ -43,45 +43,36 @@ Route::group(['middleware' => ['web']], function () {
             $limit         = 50;
             $offset        = 50;
             $all           = false;
-            $spotifyTracks = $api->getMySavedTracks(['limit' => 50]);
+            $spotifyTracks = $api->getMySavedTracks(['limit' => $limit]);
 
             // Get saved Track count
             $spotifyTrackCount = $spotifyTracks->total;
             $trackCount = Track::where('user_id', Auth::user()->id)->count();
 
-            // Spotify Tracks don't match saved Tracks so refresh
+            // Spotify Tracks don't match saved Tracks so fetch them all
             if ($spotifyTracks->total != $trackCount) {
-                // Delete all User Tracks
-                // Probably not the best option for the future if I need to 
-                // save extra data against User Tracks e.g. Last.fm play counts
-                // Track::where('user_id', Auth::user()->id)->delete();
-
                 // Get just the Tracks
                 $spotifyTracks = $spotifyTracks->items;
 
                 // Not dealt with all Tracks yet
-                if ($spotifyTrackCount > $limit) {
-                    while ($all != true) {
-                        // Get next page of Spotify Tracks
-                        $requestedTracks = $api->getMySavedTracks(['limit' => $limit, 'offset' => $offset]);
+                while ($all !== true) {
+                    // Get next page of Spotify Tracks
+                    $requestedTracks = $api->getMySavedTracks(['limit' => $limit, 'offset' => $offset]);
 
-                        // Merge with current Tracks
-                        $spotifyTracks = array_merge($spotifyTracks, $requestedTracks->items);
+                    // Merge with current Tracks
+                    $spotifyTracks = array_merge($spotifyTracks, $requestedTracks->items);
 
-                        // Have all Tracks have been dealt with?
-                        if (count($spotifyTracks) == $requestedTracks->total) {
-                            $all = true;
-                        } else {
-                            $offset += $limit;
-                        }
+                    // Have all Tracks have been dealt with?
+                    if (count($spotifyTracks) == $requestedTracks->total) {
+                        $all = true;
+                    } else {
+                        $offset += $limit;
                     }
                 }
 
                 // Loop through all Spotify Tracks
                 foreach ($spotifyTracks as $spotifyTrack) {
                     // Skip Track if it already exists
-                    // Not sure if this is really needed as they're all deleted
-                    // at the beginning of this routine (not any more)
                     if (Track::where([
                         ['user_id', Auth::user()->id],
                         ['spotify_id', $spotifyTrack->track->id],
