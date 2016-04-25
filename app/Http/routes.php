@@ -129,7 +129,6 @@ Route::group(['middleware' => ['web']], function () {
                     ]);
                 }
             }
-
         } catch (SpotifyWebAPI\SpotifyWebAPIException $e) {
             Log::error($e->getMessage());
             return redirect('/tracks')
@@ -193,7 +192,6 @@ Route::group(['middleware' => ['web']], function () {
             if (!empty($rules)) {
                 $playlist->rules()->createMany($request->get('rule'));
             }
-
         } catch (SpotifyWebAPI\SpotifyWebAPIException $e) {
             Log::error($e->getMessage());
             return redirect('/playlists')
@@ -254,7 +252,6 @@ Route::group(['middleware' => ['web']], function () {
                     $api->addUserPlaylistTracks(Auth::user()->spotify_id, $spotifyPlaylist->id, $chunk->toArray());
                 }
             }
-
         } catch (SpotifyWebAPI\SpotifyWebAPIException $e) {
             Log::error($e->getMessage());
             return redirect('/playlists')
