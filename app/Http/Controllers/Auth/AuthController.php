@@ -7,6 +7,7 @@ use Event;
 use Exception;
 use App\User;
 use App\Events\UserWasCreated;
+use App\Events\UserLoggedIn;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -82,6 +83,8 @@ class AuthController extends Controller
         $authUser = $this->findOrCreateUser($user, $token);
 
         Auth::login($authUser, true);
+
+        Event::fire(new UserLoggedIn($authUser));
 
         return redirect($this->redirectTo);
     }

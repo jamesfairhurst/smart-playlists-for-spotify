@@ -51,14 +51,14 @@
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($tracks as $track): ?>
+            @foreach ($tracks as $track)
             <tr>
                 <td>{{ str_limit($track->name, 50) }}</td>
                 <td>{{ $track->artist->name }}</td>
                 <td>{!! $track->album->name . '<br/><small>' . $track->album->released_at->format('m/Y') . '</small>' !!}</td>
                 <td>{{ $track->added_at->format('d-m-Y H:i') }}</td>
             </tr>
-            <?php endforeach; ?>
+            @endforeach
         </tbody>
     </table>
 

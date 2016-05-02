@@ -13,8 +13,40 @@
 
     <!-- Styles -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ asset('css/animate.css') }}" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     {{-- <link href="{{ elixir('css/app.css') }}" rel="stylesheet"> --}}
+
+    @if (Auth::check())
+    <script src="https://js.pusher.com/3.0/pusher.min.js"></script>
+    <script>
+    (function () {
+        var pusher = new Pusher('{{ env("PUSHER_KEY") }}', {
+            cluster: 'eu',
+            encrypted: true
+        });
+
+        var channel = pusher.subscribe('user.{{ Auth::id() }}');
+        channel.bind('App\\Events\\UserSpotifyTracksRetrieved', function(data) {
+            $.notify({
+                title: '<strong>Aww Yeah!</strong>',
+                message: 'Your Spotify Tracks have been retrieved so you can now push your Playlists to Spotify'
+            },{
+                type: 'success',
+                delay: 10000
+            });
+        });
+        channel.bind('App\\Events\\UserSpotifyTracksRefreshed', function(data) {
+            $.notify({
+                message: 'Your Tracks have been updated from Spotify'
+            },{
+                type: 'success',
+                delay: 10000
+            });
+        });
+    })();
+    </script>
+    @endif
 </head>
 <body id="app-layout">
     <nav class="navbar navbar-default">
@@ -69,6 +101,7 @@
     <!-- JavaScripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="{{ asset('js/bootstrap-notify.min.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
     {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
 </body>

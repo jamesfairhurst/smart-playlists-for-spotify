@@ -4,6 +4,7 @@ use App\Album;
 use App\Artist;
 use App\Playlist;
 use App\Track;
+use App\Events\UserVisitedTracksPage;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -26,6 +27,11 @@ Route::group(['middleware' => ['web']], function () {
         return view('welcome');
     });
 
+    // Route::get('/fire', function () {
+    //    Illuminate\Support\Facades\Event::fire(new App\Events\UserSpotifyTracksRefreshed(Auth::user()));
+    //     exit;
+    // });
+
     Route::get('auth/spotify', 'Auth\AuthController@redirectToProvider');
     Route::get('auth/spotify/callback', 'Auth\AuthController@handleProviderCallback');
     Route::get('auth/logout', 'Auth\AuthController@logout');
@@ -35,8 +41,10 @@ Route::group(['middleware' => ['web']], function () {
             return redirect('/');
         }
 
+        Illuminate\Support\Facades\Event::fire(new UserVisitedTracksPage(Auth::user()));
+
         // Init Spotify API library
-        $api = new SpotifyWebAPI\SpotifyWebAPI();
+        /*$api = new SpotifyWebAPI\SpotifyWebAPI();
         $api->setAccessToken(Auth::user()->token['access_token']);
 
         try {
@@ -133,7 +141,7 @@ Route::group(['middleware' => ['web']], function () {
             Log::error($e->getMessage());
             return redirect('/tracks')
                 ->withError('Something went wrong, please try again');
-        }
+        }*/
 
         // Get all Tracks
         $tracks = Track::with('album')

@@ -8,7 +8,9 @@
         "php": ">=5.5.9",
         "laravel/framework": "5.2.*",
         "jwilsson/spotify-web-api-php": "^1.0.0",
-        "league/oauth2-client": "^1.2"
+        "league/oauth2-client": "^1.2",
+        "aws/aws-sdk-php": "~3.0",
+        "pusher/pusher-php-server": "~2.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

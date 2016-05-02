@@ -15,7 +15,13 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         'App\Events\UserWasCreated' => [
             'App\Listeners\CreateDefaultPlaylists',
-        ]
+        ],
+        'App\Events\UserLoggedIn' => [
+            'App\Listeners\RefreshSpotifyTracks',
+        ],
+        'App\Events\UserVisitedTracksPage' => [
+            'App\Listeners\RefreshSpotifyTracks',
+        ],
     ];
 
     /**
