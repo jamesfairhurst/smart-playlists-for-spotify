@@ -203,11 +203,11 @@ Route::group(['middleware' => ['web']], function () {
         } catch (SpotifyWebAPI\SpotifyWebAPIException $e) {
             Log::error($e->getMessage() . ' - ' . $e->getFile() . ' - ' . $e->getLine());
             return redirect('/playlists')
-                ->withError('Something went wrong, please try again');
+                ->withError('Eeek something went wrong, please try again');
         }
 
         return redirect('/playlists')
-            ->withSuccess('Playlist created');
+            ->withSuccess('Your Playlist has been created, next thing is to push it to Spotify');
     });
 
     Route::get('/playlist/{playlist}', function (Playlist $playlist) {
@@ -263,11 +263,11 @@ Route::group(['middleware' => ['web']], function () {
         } catch (SpotifyWebAPI\SpotifyWebAPIException $e) {
             Log::error($e->getMessage() . ' - ' . $e->getFile() . ' - ' . $e->getLine());
             return redirect('/playlists')
-                ->withError('Something went wrong, please try again');
+                ->withError('Eeek something went wrong, please try again');
         }
 
         return redirect('/playlists')
-            ->withSuccess('Playlist pushed to Spotify');
+            ->withSuccess('Your Playlist has been pushed to Spotify');
     });
 
     Route::delete('/playlist/{playlist}', function (Playlist $playlist) {
@@ -289,13 +289,13 @@ Route::group(['middleware' => ['web']], function () {
             } catch (SpotifyWebAPI\SpotifyWebAPIException $e) {
                 Log::error($e->getMessage() . ' - ' . $e->getFile() . ' - ' . $e->getLine());
                 return redirect('/playlists')
-                    ->withError('Something went wrong, please try again');
+                    ->withError('Eeek something went wrong, please try again');
             }
         }
 
         $playlist->delete();
 
         return redirect('/playlists')
-            ->withSuccess('Playlist deleted');
+            ->withSuccess('Your Playlist has been deleted and removed from Spotify');
     });
 });
