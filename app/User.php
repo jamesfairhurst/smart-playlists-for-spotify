@@ -216,7 +216,7 @@ class User extends Authenticatable
                 }
             }
         } catch (Exception $e) {
-            Log::error($e->getMessage());
+            Log::error($e->getMessage() . ' - ' . $e->getFile() . ' - ' . $e->getLine());
         }
     }
 }

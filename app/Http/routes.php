@@ -201,7 +201,7 @@ Route::group(['middleware' => ['web']], function () {
                 $playlist->rules()->createMany($request->get('rule'));
             }
         } catch (SpotifyWebAPI\SpotifyWebAPIException $e) {
-            Log::error($e->getMessage());
+            Log::error($e->getMessage() . ' - ' . $e->getFile() . ' - ' . $e->getLine());
             return redirect('/playlists')
                 ->withError('Something went wrong, please try again');
         }
@@ -261,7 +261,7 @@ Route::group(['middleware' => ['web']], function () {
                 }
             }
         } catch (SpotifyWebAPI\SpotifyWebAPIException $e) {
-            Log::error($e->getMessage());
+            Log::error($e->getMessage() . ' - ' . $e->getFile() . ' - ' . $e->getLine());
             return redirect('/playlists')
                 ->withError('Something went wrong, please try again');
         }
@@ -287,7 +287,7 @@ Route::group(['middleware' => ['web']], function () {
                 // Unfollowing a Playlist is Spotify's way of deleting it
                 $api->unfollowPlaylist(Auth::user()->spotify_id, $playlist->spotify_id);
             } catch (SpotifyWebAPI\SpotifyWebAPIException $e) {
-                Log::error($e->getMessage());
+                Log::error($e->getMessage() . ' - ' . $e->getFile() . ' - ' . $e->getLine());
                 return redirect('/playlists')
                     ->withError('Something went wrong, please try again');
             }

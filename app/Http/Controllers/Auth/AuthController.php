@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use Auth;
 use Event;
 use Exception;
+use Log;
 use App\User;
 use App\Events\UserWasCreated;
 use App\Events\UserLoggedIn;
@@ -76,6 +77,8 @@ class AuthController extends Controller
             $user = $this->provider->getResourceOwner($token)->toArray();
 
         } catch (Exception $e) {
+            Log::error($e->getMessage() . ' - ' . $e->getFile() . ' - ' . $e->getLine());
+
             return redirect('/')
                 ->withError($e->getMessage());
         }
