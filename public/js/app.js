@@ -37,7 +37,7 @@ $(function() {
     if ($('.filter-rule-row select:first').length) {
         showHideFilterRuleComparisonOperators($('.filter-rule-row select:first'));
     }
-    $(document).on('change', '.filter-rule-row select:first', function(event) {
+    $(document).on('change', '.rule-key-select', function(event) {
         showHideFilterRuleComparisonOperators($(this));
 
         // Change placeholder text depending on selected Rule

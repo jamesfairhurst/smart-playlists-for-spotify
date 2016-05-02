@@ -30,7 +30,7 @@
                     <label for="playlist-name" class="col-sm-3 control-label">Rule</label>
 
                     <div class="col-sm-3">
-                        <select name="rule[0][key]" class="form-control">
+                        <select name="rule[0][key]" class="form-control rule-key-select">
                             <option value="artist">Artist</option>
                             <option value="album">Album</option>
                             {{-- <option value="genre">Genre</option> --}}
