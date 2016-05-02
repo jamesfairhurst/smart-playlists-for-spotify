@@ -85,5 +85,24 @@ class CreateDefaultPlaylists
                 'value' => '2010'
             ],
         ]);
+
+        $playlist = $event->user->playlists()->create([
+            'name'  => '2010s',
+            'order' => 'year_asc',
+            'limit' => 0,
+        ]);
+
+        $playlist->rules()->createMany([
+            [
+                'key' => 'year',
+                'comparison_operator' => '>',
+                'value' => '2009'
+            ],
+            [
+                'key' => 'year',
+                'comparison_operator' => '<',
+                'value' => '2020'
+            ],
+        ]);
     }
 }
