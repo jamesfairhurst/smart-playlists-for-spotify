@@ -114,6 +114,9 @@
 
     ga('create', 'UA-1927080-9', 'auto');
     ga('send', 'pageview');
+    @if (Auth::check())
+    ga('set', 'userId', {{ Auth::id() }}); // Set the user ID using signed-in user_id.
+    @endif
     </script>
     @endif
 </body>
