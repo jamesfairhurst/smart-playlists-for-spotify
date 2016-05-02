@@ -6,7 +6,7 @@ use App\Events\Event;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class RefreshSpotifyTracks
+class RefreshSpotifyTracks implements ShouldQueue
 {
     /**
      * Create the event listener.
