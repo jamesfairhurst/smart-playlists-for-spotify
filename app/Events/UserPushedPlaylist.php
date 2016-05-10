@@ -3,28 +3,27 @@
 namespace App\Events;
 
 use Log;
-use App\User;
+use App\Playlist;
 use App\Events\Event;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Queue\SerializesModels;
 
-class UserWasCreated extends Event
+class UserPushedPlaylist extends Event
 {
     use SerializesModels;
 
-    public $user;
+    public $playlist;
 
     /**
      * Create a new event instance.
      *
-     * @param  User  $user
      * @return void
      */
-    public function __construct(User $user)
+    public function __construct(Playlist $playlist)
     {
-        $this->user = $user;
+        $this->playlist = $playlist;
 
-        Log::info('A user (' . $user->spotify_id . ') was created');
+        Log::info('A user (' . $playlist->user->spotify_id . ') pushed a playlist to Spotify');
     }
 
     /**

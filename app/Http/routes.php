@@ -5,6 +5,8 @@ use App\Artist;
 use App\Playlist;
 use App\Track;
 use App\Events\UserVisitedTracksPage;
+use App\Events\UserCreatedPlaylist;
+use App\Events\UserPushedPlaylist;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -181,30 +183,28 @@ Route::group(['middleware' => ['web']], function () {
                 ->withErrors($validator);
         }
 
-        try {
-            $playlist = $request->user()->playlists()->create([
-                'name'  => $request->name,
-                'order' => $request->order,
-                'limit' => $request->limit,
-            ]);
+        $playlist = $request->user()->playlists()->create([
+            'name'  => $request->name,
+            'order' => $request->order,
+            'limit' => $request->limit,
+        ]);
 
-            // Get Rules and remove ones with empty values
-            // Playlists with empty values are allowed so that you could
-            // create a "25 most recently added" playlist for example
-            $rules = $request->get('rule');
-            foreach ($rules as $key => $rule) {
-                if (empty($rule['value'])) {
-                    unset($rules[$key]);
-                }
+        // Get Rules and remove ones with empty values
+        // Playlists with empty values are allowed so that you could
+        // create a "25 most recently added" playlist for example
+        $rules = $request->get('rule');
+
+        foreach ($rules as $key => $rule) {
+            if (empty($rule['value'])) {
+                unset($rules[$key]);
             }
-            if (!empty($rules)) {
-                $playlist->rules()->createMany($request->get('rule'));
-            }
-        } catch (SpotifyWebAPI\SpotifyWebAPIException $e) {
-            Log::error($e->getMessage() . ' - ' . $e->getFile() . ' - ' . $e->getLine());
-            return redirect('/playlists')
-                ->withError('Eeek something went wrong, please try again');
         }
+
+        if (!empty($rules)) {
+            $playlist->rules()->createMany($request->get('rule'));
+        }
+
+        Illuminate\Support\Facades\Event::fire(new UserCreatedPlaylist($playlist));
 
         return redirect('/playlists')
             ->withSuccess('Your Playlist has been created, next thing is to push it to Spotify');
@@ -260,6 +260,8 @@ Route::group(['middleware' => ['web']], function () {
                     $api->addUserPlaylistTracks(Auth::user()->spotify_id, $spotifyPlaylist->id, $chunk->toArray());
                 }
             }
+
+            Illuminate\Support\Facades\Event::fire(new UserPushedPlaylist($playlist));
         } catch (SpotifyWebAPI\SpotifyWebAPIException $e) {
             Log::error($e->getMessage() . ' - ' . $e->getFile() . ' - ' . $e->getLine());
             return redirect('/playlists')
