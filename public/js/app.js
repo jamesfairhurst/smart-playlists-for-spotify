@@ -1,4 +1,10 @@
 $(function() {
+    $('.confirm-delete').on('submit', function () {
+        if (! confirm('Are you sure?')) {
+            return false;
+        }
+    });
+
     // Add Playlist rule
     $('.filter-rule-row .fa-plus').parent().on('click', function(event) {
         event.preventDefault();
