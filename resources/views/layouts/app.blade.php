@@ -52,12 +52,14 @@
     <nav class="navbar navbar-default">
         <div class="container">
             <div class="navbar-header">
+                @if (! Auth::guest())
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
                     <span class="sr-only">Toggle Navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
+                @endif
 
                 <a class="navbar-brand" href="{{ url('/') }}">
                     Smart Playlists for Spotify
@@ -65,7 +67,7 @@
             </div>
 
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                @if ( ! Auth::guest())
+                @if (! Auth::guest())
                 <ul class="nav navbar-nav">
                     <li{!! (Request::is('tracks')) ? ' class="active"' : '' !!}><a href="{{ url('/tracks') }}"> <i class="fa fa-music"></i> Tracks</a></li>
                     <li{!! (Request::is('playlists')) ? ' class="active"' : '' !!}><a href="{{ url('/playlists') }}"><i class="fa fa-list"></i> Playlists</a></li>
