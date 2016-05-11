@@ -8,6 +8,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 class RefreshSpotifyTracks implements ShouldQueue
 {
+    use InteractsWithQueue;
+
     /**
      * Create the event listener.
      *
@@ -26,6 +28,10 @@ class RefreshSpotifyTracks implements ShouldQueue
      */
     public function handle(Event $event)
     {
-        $event->user->refreshSpotifyTracks();
+        $ok = $event->user->refreshSpotifyTracks();
+
+        if ($ok === false) {
+            $this->release(30);
+        }
     }
 }

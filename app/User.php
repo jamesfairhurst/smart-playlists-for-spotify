@@ -116,7 +116,7 @@ class User extends Authenticatable
     /**
      * Refresh a User's Spotify Tracks
      *
-     * @return void
+     * @return boolean
      */
     public function refreshSpotifyTracks()
     {
@@ -217,6 +217,10 @@ class User extends Authenticatable
             }
         } catch (Exception $e) {
             Log::error($e->getMessage() . ' - ' . $e->getFile() . ' - ' . $e->getLine());
+
+            return false;
         }
+
+        return true;
     }
 }
