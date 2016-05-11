@@ -159,7 +159,9 @@ Route::group(['middleware' => ['web']], function () {
             return redirect('/');
         }
 
-        $playlists = Playlist::orderBy('created_at', 'asc')->paginate();
+        $playlists = Playlist::where('user_id', Auth::user()->id)
+            ->orderBy('created_at', 'asc')
+            ->paginate();
 
         return view('playlists', ['playlists' => $playlists]);
     });
