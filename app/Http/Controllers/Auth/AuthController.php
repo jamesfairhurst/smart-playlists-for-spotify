@@ -68,14 +68,16 @@ class AuthController extends Controller
      */
     public function handleProviderCallback(Request $request)
     {
-        try {
+        if (! $request->has('code')) {
+            return redirect('/');
+        }
 
+        try {
             $token = $this->provider->getAccessToken('authorization_code', [
                 'code' => $request->get('code')
             ]);
 
             $user = $this->provider->getResourceOwner($token)->toArray();
-
         } catch (Exception $e) {
             Log::error($e->getMessage() . ' - ' . $e->getFile() . ' - ' . $e->getLine());
 
@@ -119,5 +121,4 @@ class AuthController extends Controller
 
         return $user;
     }
-
 }
