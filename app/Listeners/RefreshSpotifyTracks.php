@@ -31,7 +31,7 @@ class RefreshSpotifyTracks implements ShouldQueue
         $ok = $event->user->refreshSpotifyTracks();
 
         if ($ok === false) {
-            $this->release(30);
+            $this->release(60);
         }
     }
 }
