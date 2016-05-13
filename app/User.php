@@ -52,7 +52,7 @@ class User extends Authenticatable
 
     /**
      * Get the JSON decoded access token
-     * 
+     *
      * @param  string $value
      * @return array
      */
@@ -140,6 +140,9 @@ class User extends Authenticatable
 
                 // Not dealt with all Tracks yet
                 while ($all !== true) {
+                    // Sleep
+                    sleep(5);
+
                     // Get next page of Spotify Tracks
                     $requestedTracks = $api->getMySavedTracks(['limit' => $limit, 'offset' => $offset]);
 
