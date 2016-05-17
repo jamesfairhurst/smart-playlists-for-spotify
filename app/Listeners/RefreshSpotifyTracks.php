@@ -29,7 +29,7 @@ class RefreshSpotifyTracks implements ShouldQueue
     public function handle(Event $event)
     {
         if ($this->attempts() > 10) {
-            $this->failed();
+            return $this->delete();
         }
 
         $ok = $event->user->refreshSpotifyTracks();
