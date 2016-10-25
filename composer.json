@@ -10,7 +10,8 @@
         "jwilsson/spotify-web-api-php": "^1.0.0",
         "league/oauth2-client": "^1.2",
         "aws/aws-sdk-php": "~3.0",
-        "pusher/pusher-php-server": "~2.0"
+        "pusher/pusher-php-server": "~2.0",
+        "doctrine/dbal": "^2.5"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
