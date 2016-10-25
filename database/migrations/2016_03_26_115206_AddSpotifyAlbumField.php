@@ -13,7 +13,7 @@ class AddSpotifyAlbumField extends Migration
     public function up()
     {
         Schema::table('albums', function (Blueprint $table) {
-            $table->text('spotify_data')->after('released_at');
+            $table->text('spotify_data')->after('released_at')->nullable();
         });
     }
 

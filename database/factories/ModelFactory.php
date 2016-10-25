@@ -15,6 +15,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     return [
         'spotify_id' => $faker->uuid,
         'name' => $faker->name,
+        'token' => str_random(10),
         // 'email' => $faker->email,
         // 'password' => bcrypt(str_random(10)),
         // 'remember_token' => str_random(10),

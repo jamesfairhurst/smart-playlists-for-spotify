@@ -13,8 +13,8 @@ class AddSpotifyArtistFields extends Migration
     public function up()
     {
         Schema::table('artists', function (Blueprint $table) {
-            $table->string('spotify_href')->after('name');
-            $table->string('spotify_uri')->after('spotify_href');
+            $table->string('spotify_href')->after('name')->nullable();
+            $table->string('spotify_uri')->after('spotify_href')->nullable();
         });
     }
 
@@ -26,8 +26,7 @@ class AddSpotifyArtistFields extends Migration
     public function down()
     {
         Schema::table('artists', function (Blueprint $table) {
-            $table->dropColumn('spotify_href');
-            $table->dropColumn('spotify_uri');
+            $table->dropColumn(['spotify_href', 'spotify_uri']);
         });
     }
 }

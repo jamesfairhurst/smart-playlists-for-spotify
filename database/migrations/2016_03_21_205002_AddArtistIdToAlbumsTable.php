@@ -13,7 +13,7 @@ class AddArtistIdToAlbumsTable extends Migration
     public function up()
     {
         Schema::table('albums', function (Blueprint $table) {
-            $table->integer('artist_id')->after('id')->index();
+            $table->integer('artist_id')->after('id')->nullable()->index();
         });
     }
 

@@ -13,7 +13,9 @@ class AddArtistIdToTracksTable extends Migration
     public function up()
     {
         Schema::table('tracks', function (Blueprint $table) {
-            $table->integer('artist_id')->after('user_id')->index();
+            $table->integer('artist_id')->after('user_id')->nullable()->index();
+        });
+        Schema::table('tracks', function (Blueprint $table) {
             $table->dropColumn('artist');
         });
     }
@@ -27,7 +29,9 @@ class AddArtistIdToTracksTable extends Migration
     {
         Schema::table('tracks', function (Blueprint $table) {
             $table->dropColumn('artist_id');
-            $table->string('artist')->after('spotify_id');
+        });
+        Schema::table('tracks', function (Blueprint $table) {
+            $table->string('artist')->after('spotify_id')->nullable();
         });
     }
 }
