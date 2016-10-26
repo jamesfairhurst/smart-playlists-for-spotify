@@ -93,7 +93,7 @@ class Track extends Model
                              ->orderBy('a1.name', 'asc');
                 break;
             case 'random':
-                return $query->orderBy(DB::raw('RAND()'));
+                return $query->inRandomOrder();
                 break;
         }
 

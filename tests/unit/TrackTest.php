@@ -225,22 +225,15 @@ class TrackTest extends TestCase
     /**
      * Test Track 'random' order by scope.
      *
-     * Can't really test random order, so just check it brings back results
-     * 
      * @return void
      */
     public function testScopeDynamicOrderByRandom()
     {
-        // @todo MySQL RAND() not available in Sqlite, uses RANDOM() instead
-        if (env('DB_CONNECTION') == 'sqlite') {
-            return;
-        }
+        factory(App\Track::class, 10)->create();
 
-        $track1 = factory(App\Track::class)->create();
-        $track2 = factory(App\Track::class)->create();
+        $tracks1 = App\Track::dynamicOrderBy('random')->get();
+        $tracks2 = App\Track::dynamicOrderBy('random')->get();
 
-        $tracks = App\Track::dynamicOrderBy('random')->get();
-
-        $this->assertEquals($tracks->count(), 2);
+        $this->assertNotEmpty(array_diff_assoc($tracks1->lists('id')->toArray(), $tracks2->lists('id')->toArray()));
     }
 }
