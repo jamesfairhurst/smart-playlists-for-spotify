@@ -255,11 +255,11 @@ Route::group(['middleware' => ['web']], function () {
                 // Replace the first chunk of Tracks
                 // Basically clears the Playlist to start fresh
                 if (!$key) {
-                    $api->replaceUserPlaylistTracks(Auth::user()->spotify_id, $spotifyPlaylist->id, $chunk->toArray());
+                    $api->replaceUserPlaylistTracks(Auth::user()->spotify_id, $spotifyPlaylist->id, array_values($chunk->toArray()));
 
                 // Add to the Spotify Playlist
                 } else {
-                    $api->addUserPlaylistTracks(Auth::user()->spotify_id, $spotifyPlaylist->id, $chunk->toArray());
+                    $api->addUserPlaylistTracks(Auth::user()->spotify_id, $spotifyPlaylist->id, array_values($chunk->toArray()));
                 }
             }
 
