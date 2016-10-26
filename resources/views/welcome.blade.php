@@ -35,21 +35,11 @@
         </div>
       </div>
     </div>
-    <div class="col-md-4">
-      <h2 class=" text-center">Todo</h2>
-      <ul>
-        <li>Live updating in the background so your Playlists are kept upto date</li>
-        <li>Additional Playlist Rules</li>
-        <li>Last.fm integration to get Track playcounts</li>
-        <li>Display live Tracks when creating a new Playlist</li>
-        <li>Use Tracks from all your Playlists not just your saved Tracks</li>
-      </ul>
-    </div>
-    <div class="col-md-4 text-center">
+    <div class="col-md-8">
       <h2>About</h2>
       <p>Coming from iTunes and being able to easily create Smart Playlists I became frustrated with not being able to create them in Spotify so I made this.</p>
       <p>The app asks for the <strong>playlist-modify-public</strong> &amp; <strong>user-library-read</strong> <a href="https://developer.spotify.com/web-api/using-scopes/">scopes</a> which is pretty restrictive and the bare minimum required to read your Tracks and create Playlists from them.</p>
-      <p>All feedback and suggestions welcome just <a href="mailto:support@smartplaylistsforspotify.co.uk">email me</a>.</p>
+      <p>All feedback and suggestions welcome just <a href="mailto:support@smartplaylistsforspotify.co.uk">email me</a> or open an issue or pull request on <a href="https://github.com/jamesfairhurst/smart-playlists-for-spotify">Github</a>.</p>
     </div>
   </div>
 </div>
