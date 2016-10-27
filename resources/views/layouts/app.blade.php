@@ -7,15 +7,8 @@
 
     <title>Smart Playlists for Spotify</title>
 
-    <!-- Fonts -->
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>
-    <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel='stylesheet' type='text/css'>
-
     <!-- Styles -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
-    <link href="{{ asset('css/animate.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    {{-- <link href="{{ elixir('css/app.css') }}" rel="stylesheet"> --}}
+    <link href="{{ elixir('css/app.css') }}" rel="stylesheet">
 
     @if (Auth::check())
     <script src="https://js.pusher.com/3.0/pusher.min.js"></script>
@@ -71,7 +64,7 @@
                 <ul class="nav navbar-nav">
                     <li{!! (Request::is('tracks')) ? ' class="active"' : '' !!}><a href="{{ url('/tracks') }}"> <i class="fa fa-music"></i> Tracks</a></li>
                     <li{!! (Request::is('playlists')) ? ' class="active"' : '' !!}><a href="{{ url('/playlists') }}"><i class="fa fa-list"></i> Playlists</a></li>
-                    <li><a href="mailto:support@smartplaylistsforspotify.co.uk"><i class="fa fa-envelope-o"></i> Support</a></li>
+                    <li><a href="https://github.com/jamesfairhurst/smart-playlists-for-spotify/issues"><i class="fa fa-envelope-o"></i> Support</a></li>
                 </ul>
                 @endif
 
@@ -96,16 +89,12 @@
 
     <footer class="footer">
         <div class="container">
-            <p class="text-muted text-center">Made with <a href="https://laravel.com" target="_blank">Laravel</a> on <a href="https://forge.laravel.com" target="_blank">Forge</a> by <a href="http://www.jamesfairhurst.co.uk" target="_blank">James Fairhurst</a> fuelled by <a href="https://open.spotify.com/user/james_f" target="_blank"><i class="fa fa-music"></i></a> <a href="https://pactcoffee.com/?voucher=JAMES-XIKO8G" target="_blank"><i class="fa fa-coffee"></i></a> <a href="http://www.bakingbad.co.uk/2013/07/my-favourite-carrot-cake/" target="_blank"><i class="fa fa-birthday-cake"></i></a> <a href="http://www.leffe.com/en/beers/leffe-blond" target="_blank"><i class="fa fa-beer"></i></a></p>
+            <p class="text-muted text-center">Made with <a href="https://laravel.com" target="_blank">Laravel</a> on <a href="https://forge.laravel.com" target="_blank">Forge</a> by <a href="http://www.jamesfairhurst.co.uk" target="_blank">James Fairhurst</a> fuelled by <a href="https://open.spotify.com/user/james_f" target="_blank"><i class="fa fa-music"></i></a> <a href="https://pactcoffee.com/?voucher=JAMES-XIKO8G" target="_blank"><i class="fa fa-coffee"></i></a> <a href="http://www.bakingbad.co.uk/2013/07/my-favourite-carrot-cake" target="_blank"><i class="fa fa-birthday-cake"></i></a> <a href="http://www.leffe.com/en/beers/leffe-blond" target="_blank"><i class="fa fa-beer"></i></a></p>
         </div>
     </footer>
 
     <!-- JavaScripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <script src="{{ asset('js/bootstrap-notify.min.js') }}"></script>
-    <script src="{{ asset('js/app.js') }}"></script>
-    {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
+    <script src="{{ elixir('js/app.js') }}"></script>
 
     @if (env('APP_ENV') != 'local')
     <script>
