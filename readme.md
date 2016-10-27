@@ -9,12 +9,3 @@ Tired of manually creating Playlists from your saved Tracks? This tool will help
 ## Features
 
 Create Smart Playlists with Track/Album rules and these will be automatically created in Spotify from your list of saved Tracks.
-
-## Todo
-
-- More tests!
-- Live updating in the background so Playlists are kept upto date
-- Additional Playlist Rules
-- Last.fm integration to get Track playcounts
-- Display live Tracks when creating a new Playlist
-- Edit a Playlist
