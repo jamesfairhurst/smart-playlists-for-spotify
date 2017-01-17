@@ -123,6 +123,8 @@ class User extends Authenticatable
         $api = new SpotifyWebAPI();
         $api->setAccessToken($this->token['access_token']);
 
+        Log::info('Starting refreshSpotifyTracks');
+
         try {
             $limit         = 50;
             $offset        = 50;
@@ -133,6 +135,8 @@ class User extends Authenticatable
             $spotifyTrackCount = $spotifyTracks->total;
             $trackCount = $this->tracks()->count();
 
+            Log::info('Getting rest of tracks');
+
             // Spotify Tracks don't match saved Tracks so fetch them all
             if ($spotifyTracks->total != $trackCount) {
                 // Get just the Tracks
@@ -141,7 +145,7 @@ class User extends Authenticatable
                 // Not dealt with all Tracks yet
                 while ($all !== true) {
                     // Sleep
-                    sleep(5);
+                    sleep(1);
 
                     // Get next page of Spotify Tracks
                     $requestedTracks = $api->getMySavedTracks(['limit' => $limit, 'offset' => $offset]);
@@ -157,17 +161,25 @@ class User extends Authenticatable
                     }
                 }
 
+                Log::info('All tracks found');
+
                 // Loop through all Spotify Tracks
                 foreach ($spotifyTracks as $spotifyTrack) {
+                    Log::info('Processing track ' . $spotifyTrack->track->id);
+
                     // Skip Track if it already exists
                     if ($this->tracks()->where('spotify_id', $spotifyTrack->track->id)->count()) {
                         continue;
                     }
 
+                    Log::info('Checking artist');
+
                     // Check for existing Artist
                     $artist = Artist::where('spotify_id', $spotifyTrack->track->artists[0]->id)->first();
 
                     if (is_null($artist)) {
+                        Log::info('Creating artist');
+
                         $artist = Artist::create([
                             'spotify_id'   => $spotifyTrack->track->artists[0]->id,
                             'name'         => $spotifyTrack->track->artists[0]->name,
@@ -176,11 +188,15 @@ class User extends Authenticatable
                         ]);
                     }
 
+                    Log::info('Checking album');
+
                     // Check for existing Album
                     $album = Album::where('spotify_id', $spotifyTrack->track->album->id)->first();
 
                     // Album not found so create it
                     if (is_null($album)) {
+                        Log::info('Creating album');
+
                         // Get Spotify Album
                         $spotifyAlbumJson = file_get_contents($spotifyTrack->track->album->href);
                         $spotifyAlbum = json_decode($spotifyAlbumJson, true);
@@ -200,6 +216,8 @@ class User extends Authenticatable
                             'spotify_data' => json_encode($spotifyAlbum),
                         ]);
                     }
+
+                    Log::info('Creating track');
 
                     // Create Track
                     $this->tracks()->create([
@@ -223,6 +241,8 @@ class User extends Authenticatable
 
             return false;
         }
+
+        Log::info('Finishing refreshSpotifyTracks');
 
         return true;
     }
