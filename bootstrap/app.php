@@ -41,6 +41,11 @@ $app->singleton(
     App\Exceptions\Handler::class
 );
 
+// Configure "info" logs
+$app->configureMonologUsing(function ($monolog) use ($app) {
+    $monolog->pushHandler(new Monolog\Handler\StreamHandler($app->storagePath() . '/logs/info.log', Monolog\Logger::INFO));
+});
+
 /*
 |--------------------------------------------------------------------------
 | Return The Application
