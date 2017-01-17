@@ -16,7 +16,7 @@ class CreateTracksTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->index();
             $table->integer('album_id')->index();
-            $table->string('spotify_id');
+            $table->string('spotify_id')->index();
             $table->string('artist');
             $table->string('name');
             $table->dateTime('added_at');
