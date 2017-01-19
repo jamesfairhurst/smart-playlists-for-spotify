@@ -43,7 +43,10 @@ $app->singleton(
 
 // Configure "info" logs
 $app->configureMonologUsing(function ($monolog) use ($app) {
-    $monolog->pushHandler(new Monolog\Handler\StreamHandler($app->storagePath() . '/logs/info.log', Monolog\Logger::INFO));
+    $monolog->pushHandler(new Monolog\Handler\StreamHandler($app->storagePath() . '/logs/info.log', Monolog\Logger::DEBUG, false));
+    $monolog->pushHandler(new Monolog\Handler\StreamHandler($app->storagePath() . '/logs/laravel.log', Monolog\Logger::NOTICE, false));
+
+    return $monolog;
 });
 
 /*
