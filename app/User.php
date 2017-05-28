@@ -163,12 +163,20 @@ class User extends Authenticatable
 
                 Log::info('All tracks found');
 
+                $spotifyTrackIds = collect($spotifyTracks)->map(function ($item, $key) {
+                    return $item->track->id;
+                })->toArray();
+                $userTracks = $this->tracks->map(function ($item, $key) {
+                    return $item->spotify_id;
+                })->toArray();
+                $removedTrackIds = collect($userTracks)->diff($spotifyTrackIds)->toArray();
+
                 // Loop through all Spotify Tracks
                 foreach ($spotifyTracks as $spotifyTrack) {
                     Log::info('Processing track ' . $spotifyTrack->track->id);
 
                     // Skip Track if it already exists
-                    if ($this->tracks()->where('spotify_id', $spotifyTrack->track->id)->count()) {
+                    if (in_array($spotifyTrack->track->id, $userTracks)) {
                         continue;
                     }
 
@@ -228,6 +236,12 @@ class User extends Authenticatable
                         'name'       => $spotifyTrack->track->name,
                         'added_at'   => Carbon::parse($spotifyTrack->added_at)->format('Y-m-d H:i:s')
                     ]);
+                }
+
+                if (!empty($removedTrackIds)) {
+                    Log::info('Removing tracks');
+
+                    $this->tracks()->whereIn('spotify_id', $removedTrackIds)->delete();
                 }
 
                 if (!$trackCount) {
