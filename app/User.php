@@ -206,8 +206,8 @@ class User extends Authenticatable
                         Log::info('Creating album');
 
                         // Get Spotify Album
-                        $spotifyAlbumJson = file_get_contents($spotifyTrack->track->album->href);
-                        $spotifyAlbum = json_decode($spotifyAlbumJson, true);
+                        $api->setReturnType(SpotifyWebAPI::RETURN_ASSOC);
+                        $spotifyAlbum = $api->getAlbum($spotifyTrack->track->album->id);
 
                         // Date changes based on precision so always make it a full date
                         if ($spotifyAlbum['release_date_precision'] == 'year') {
